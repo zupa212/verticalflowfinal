@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Clock, FileText, Infinity } from 'lucide-react';
 import { gsap } from 'gsap';
+import TypewriterText from '@/components/TypewriterText';
 
 const Hero: React.FC = () => {
   const heroRef = useRef<HTMLElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const headlineRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
@@ -60,13 +61,16 @@ const Hero: React.FC = () => {
         </motion.div>
 
         {/* Main Headline */}
-        <h1
-          ref={headlineRef}
-          className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight mb-8 text-foreground hover-glow cursor-default"
-        >
-          A DEDICATED DESIGN TEAM<br />
-          FOR STARTUPS
-        </h1>
+        <div ref={headlineRef} className="mb-8">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight mb-4 text-foreground hover-glow cursor-default">
+            A DEDICATED DESIGN TEAM
+          </h1>
+          <TypewriterText 
+            staticText="FOR" 
+            phrases={["STARTUPS", "CREATORS", "BRANDS", "DREAMERS", "FOUNDERS", "INNOVATORS"]}
+            className="justify-center"
+          />
+        </div>
 
         {/* Subheadline */}
         <p
