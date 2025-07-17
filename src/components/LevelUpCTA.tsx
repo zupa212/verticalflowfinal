@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check, Mouse, Instagram, Mail } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,29 +11,23 @@ const LevelUpCTA: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
-  const tasksRef = useRef<HTMLDivElement>(null);
-  const [completedTasks, setCompletedTasks] = useState<number[]>([]);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  const leftTasks = [
-    "Logo to update",
+  const tasks = [
+    "Page need to update",
     "Pitch deck urgent", 
     "Branding",
     "Landing Page",
-    "Contact Page need to update"
-  ];
-
-  const rightTasks = [
-    "Contact Page need to update",
-    "Pitch deck urgent",
-    "Branding", 
     "Logo",
-    "Landing Page"
+    "Website redesign",
+    "Social media kit",
+    "Email templates"
   ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Section background animation - removed due to GSAP color parsing issues
-      // Instead, we'll use CSS transitions for the background
+      // Section animation
       if (sectionRef.current) {
         gsap.to(sectionRef.current, {
           opacity: 1,
@@ -84,66 +78,40 @@ const LevelUpCTA: React.FC = () => {
         }
       );
 
-      // Tasks animation
-      if (tasksRef.current) {
-        const leftTaskElements = Array.from(tasksRef.current.querySelectorAll('.left-task'));
-        const rightTaskElements = Array.from(tasksRef.current.querySelectorAll('.right-task'));
-
-        if (leftTaskElements.length > 0) {
-          gsap.fromTo(leftTaskElements,
-            { x: -100, opacity: 0 },
-            {
-              x: 0,
-              opacity: 1,
-              duration: 0.8,
-              stagger: 0.1,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: tasksRef.current,
-                start: "top 80%",
-                end: "bottom 20%",
-                toggleActions: "play none none reverse"
-              }
+      // Slider animation
+      if (sliderRef.current) {
+        const cards = Array.from(sliderRef.current.querySelectorAll('.task-card'));
+        gsap.fromTo(cards,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: sliderRef.current,
+              start: "top 80%",
+              end: "bottom 20%",
+              toggleActions: "play none none reverse"
             }
-          );
-        }
-
-        if (rightTaskElements.length > 0) {
-          gsap.fromTo(rightTaskElements,
-            { x: 100, opacity: 0 },
-            {
-              x: 0,
-              opacity: 1,
-              duration: 0.8,
-              stagger: 0.1,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: tasksRef.current,
-                start: "top 80%",
-                end: "bottom 20%",
-                toggleActions: "play none none reverse"
-              }
-            }
-          );
-        }
+          }
+        );
       }
     }, sectionRef);
 
-    // Simulate task completion
+    // Auto-slide effect
     const interval = setInterval(() => {
-      if (completedTasks.length < rightTasks.length) {
-        setCompletedTasks(prev => [...prev, prev.length]);
-      }
-    }, 1500);
+      setCurrentSlide(prev => (prev + 1) % Math.max(1, tasks.length - 3));
+    }, 3000);
 
     return () => {
       ctx.revert();
       clearInterval(interval);
     };
-  }, [completedTasks.length, rightTasks.length]);
+  }, [tasks.length]);
 
   const handleJoinClick = () => {
-    // Animate button click
     if (buttonRef.current) {
       gsap.to(buttonRef.current, {
         scale: 0.95,
@@ -158,117 +126,114 @@ const LevelUpCTA: React.FC = () => {
   return (
     <section 
       ref={sectionRef}
-      className="relative py-32 overflow-hidden bg-gradient-to-br from-foreground via-foreground/95 to-foreground text-background section-separator"
+      className="relative py-20 overflow-hidden"
     >
-      {/* Grid Background - inverted for dark section */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' fill='white' fill-opacity='0.1' stroke='white' stroke-opacity='0.1' stroke-width='1'%3E%3Cpath d='M0 16h32M16 0v32'/%3E%3C/svg%3E")`
-        }} />
-      </div>
-      
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Content */}
-        <div className="text-center mb-16">
-          <h2
-            ref={titleRef}
-            className="text-4xl sm:text-5xl lg:text-6xl font-black mb-8 text-background leading-tight"
-          >
-            If you scrolled this far, It's time to <span className="text-gradient-inverse">LEVEL UP</span>
-          </h2>
-
-          {/* CTA Button */}
-          <div ref={buttonRef} className="mb-12">
-            <Button 
-              onClick={handleJoinClick}
-              size="lg" 
-              className="bg-background text-foreground hover:bg-background/90 rounded-full px-12 py-6 text-lg font-bold shadow-2xl group relative overflow-hidden"
-            >
-              <span className="relative z-10 flex items-center gap-3">
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                Join the Elite Club
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-background to-background/80 group-hover:from-background/90 group-hover:to-background transition-all duration-300" />
-            </Button>
-            
-            {/* Just click indicator */}
-            <motion.div 
-              className="mt-3 flex items-center justify-center"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.6 }}
-            >
-              <span className="text-sm text-background/80 bg-background/10 px-3 py-1 rounded-full border border-background/20">
-                Just click
-              </span>
-            </motion.div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Main CTA Container */}
+        <div className="bg-foreground text-background rounded-3xl p-8 sm:p-12 lg:p-16 relative overflow-hidden shadow-2xl">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' fill='white' fill-opacity='0.1' stroke='white' stroke-opacity='0.1' stroke-width='1'%3E%3Cpath d='M0 16h32M16 0v32'/%3E%3C/svg%3E")`
+            }} />
           </div>
+          
+          <div className="relative z-10 text-center">
+            {/* Main Title */}
+            <h2
+              ref={titleRef}
+              className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black mb-8 text-background leading-tight"
+            >
+              If you scrolled this far, It's time to <span className="text-green-400">LEVEL UP</span>
+            </h2>
 
-          <p className="text-lg text-background/80 mb-20">
-            Trust me we are good at this :)
-          </p>
-        </div>
-
-        {/* Task Lists Comparison */}
-        <div 
-          ref={tasksRef}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center"
-        >
-          {/* Left Tasks (Before) */}
-          <div className="space-y-4">
-            {leftTasks.map((task, index) => (
-              <motion.div
-                key={index}
-                className="left-task flex items-center gap-3 p-4 bg-background/10 rounded-lg border border-background/20"
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <div className="w-4 h-4 border-2 border-background/40 rounded" />
-                <span className="text-background/80 text-sm">{task}</span>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Center Logo */}
-          <div className="flex justify-center">
-            <div className="text-6xl font-black text-background hover-glow cursor-pointer">
-              kree8
+            {/* CTA Button with Glow */}
+            <div ref={buttonRef} className="mb-8">
+              <div className="relative inline-block">
+                <Button 
+                  onClick={handleJoinClick}
+                  size="lg" 
+                  className="bg-background text-foreground hover:bg-background/90 rounded-full px-8 sm:px-12 py-4 sm:py-6 text-base sm:text-lg font-bold shadow-2xl group relative overflow-hidden animate-pulse hover:animate-none transition-all duration-300"
+                >
+                  <span className="relative z-10 flex items-center gap-3">
+                    <Mouse className="w-5 h-5 group-hover:animate-bounce" />
+                    Join the Elite Club
+                  </span>
+                  {/* Continuous glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-purple-400/20 to-blue-400/20 animate-pulse rounded-full" />
+                </Button>
+                
+                {/* Just click indicator */}
+                <motion.div 
+                  className="mt-3"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1, duration: 0.6 }}
+                >
+                  <span className="text-xs sm:text-sm text-background/80 bg-background/10 px-3 py-1 rounded-full border border-background/20">
+                    Just click
+                  </span>
+                </motion.div>
+              </div>
             </div>
-          </div>
 
-          {/* Right Tasks (After) */}
-          <div className="space-y-4">
-            {rightTasks.map((task, index) => (
-              <motion.div
-                key={index}
-                className={`right-task flex items-center gap-3 p-4 rounded-lg border transition-all duration-500 ${
-                  completedTasks.includes(index) 
-                    ? 'bg-green-500/20 border-green-500/40' 
-                    : 'bg-background/10 border-background/20'
-                }`}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <div className={`w-4 h-4 rounded transition-all duration-300 flex items-center justify-center ${
-                  completedTasks.includes(index)
-                    ? 'bg-green-500'
-                    : 'border-2 border-background/40'
-                }`}>
-                  {completedTasks.includes(index) && (
-                    <Check className="w-3 h-3 text-white" />
-                  )}
+            {/* Trust message */}
+            <p className="text-base sm:text-lg text-background/80 mb-12">
+              Trust me we are good at this :)
+            </p>
+
+            {/* Task Slider */}
+            <div 
+              ref={sliderRef}
+              className="relative mb-16"
+            >
+              <div className="flex gap-3 sm:gap-4 overflow-hidden justify-center">
+                <div 
+                  className="flex gap-3 sm:gap-4 transition-transform duration-500 ease-in-out"
+                  style={{ transform: `translateX(-${currentSlide * 100}px)` }}
+                >
+                  {tasks.map((task, index) => (
+                    <motion.div
+                      key={index}
+                      className="task-card flex items-center gap-2 bg-background/10 backdrop-blur-sm border border-background/20 rounded-full px-3 sm:px-4 py-2 whitespace-nowrap flex-shrink-0"
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div className="w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded-full flex items-center justify-center">
+                        <Check className="w-2 h-2 sm:w-3 sm:h-3 text-white" />
+                      </div>
+                      <span className="text-xs sm:text-sm text-background/90 font-medium">{task}</span>
+                    </motion.div>
+                  ))}
                 </div>
-                <span className={`text-sm transition-all duration-300 ${
-                  completedTasks.includes(index)
-                    ? 'text-green-300 line-through'
-                    : 'text-background/80'
-                }`}>
-                  {task}
-                </span>
-              </motion.div>
-            ))}
+              </div>
+            </div>
+
+            {/* Copyright and Social */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-background/20">
+              <p className="text-xs sm:text-sm text-background/60">
+                © 2025 Verticalflow All rights reserved
+              </p>
+              
+              <div className="flex items-center gap-3">
+                <motion.a
+                  href="#"
+                  className="w-8 h-8 bg-background/10 hover:bg-background/20 rounded-full flex items-center justify-center transition-all duration-300"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Instagram className="w-4 h-4 text-background/80" />
+                </motion.a>
+                <motion.a
+                  href="#"
+                  className="w-8 h-8 bg-background/10 hover:bg-background/20 rounded-full flex items-center justify-center transition-all duration-300"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Mail className="w-4 h-4 text-background/80" />
+                </motion.a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
