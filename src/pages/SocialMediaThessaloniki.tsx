@@ -2,6 +2,8 @@ import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import FAQ from '@/components/FAQ';
+import { useSEO, generatePageSEO } from '@/hooks/useSEO';
+import { generateServiceSchema, generateFAQSchema } from '@/utils/structuredData';
 import { motion } from 'framer-motion';
 import { Smartphone, TrendingUp, Users, BarChart3, Star, ArrowRight, Instagram, MessageCircle, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';

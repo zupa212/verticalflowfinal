@@ -2,6 +2,8 @@ import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import FAQ from '@/components/FAQ';
+import { useSEO, generatePageSEO } from '@/hooks/useSEO';
+import { generateServiceSchema, generateFAQSchema } from '@/utils/structuredData';
 import Lottie from 'lottie-react';
 import { motion } from 'framer-motion';
 import { Play, TrendingUp, Target, Users, Star, ArrowRight } from 'lucide-react';
