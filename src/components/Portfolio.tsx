@@ -42,30 +42,50 @@ const Portfolio: React.FC = () => {
   const projects = [
     {
       id: 1,
-      title: "Feather - Task Management",
-      category: "Mobile App Design",
+      title: "E-commerce Platform",
+      category: "Web Development",
       image: portfolio1,
+      logo: portfolio1,
+      description: "Μοντέρνη πλατφόρμα e-commerce με ολοκληρωμένο σύστημα πληρωμών και διαχείρισης παραγγελιών.",
+      technologies: ["React", "Node.js", "MongoDB"],
+      client: "TechCorp Θεσσαλονίκη",
+      url: "https://example.com",
       gradient: "from-green-400 to-blue-500"
     },
     {
       id: 2,
-      title: "Sound Station",
-      category: "Music Platform",
+      title: "Brand Identity Design",
+      category: "Design & Branding",
       image: portfolio2,
+      logo: portfolio2,
+      description: "Δημιουργική ταυτότητα για digital agency στη Θεσσαλονίκη με έμφαση στα reels και το social media.",
+      technologies: ["Figma", "Illustrator", "After Effects"],
+      client: "Creative Studio",
+      url: "https://example.com",
       gradient: "from-purple-400 to-pink-500"
     },
     {
       id: 3,
-      title: "Meeting Platform",
-      category: "Web Application",
+      title: "Mobile App Development",
+      category: "App Development",
       image: portfolio3,
+      logo: portfolio3,
+      description: "Καινοτόμα εφαρμογή για τοπικές επιχειρήσεις με GPS integration και real-time notifications.",
+      technologies: ["React Native", "Firebase", "Google Maps API"],
+      client: "Local Business Hub",
+      url: "https://example.com",
       gradient: "from-orange-400 to-red-500"
     },
     {
       id: 4,
-      title: "Fashion Store",
-      category: "E-commerce App",
+      title: "Digital Marketing Campaign",
+      category: "Marketing & Reels",
       image: portfolio4,
+      logo: portfolio4,
+      description: "Στρατηγική καμπάνια social media με viral reels που αύξησε την επισκεψιμότητα κατά 300%.",
+      technologies: ["Meta Ads", "Google Ads", "Analytics"],
+      client: "Fashion Brand Θεσσαλονίκη",
+      url: "https://example.com",
       gradient: "from-gray-400 to-gray-600"
     }
   ];
@@ -111,7 +131,7 @@ const Portfolio: React.FC = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.2, duration: 0.8 }}
               whileHover={{ scale: 1.02, y: -5 }}
-              className="group relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500"
+              className="group relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
               style={{ aspectRatio: '4/5' }}
             >
               {/* Background Gradient */}
@@ -131,6 +151,15 @@ const Portfolio: React.FC = () => {
                       className="w-64 h-48 object-cover rounded-2xl shadow-2xl"
                     />
                     <div className="absolute inset-0 bg-white/10 rounded-2xl" />
+                    
+                    {/* Project Logo */}
+                    <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                      <img
+                        src={project.logo}
+                        alt={`${project.client} logo`}
+                        className="w-10 h-10 object-cover rounded-full"
+                      />
+                    </div>
                   </motion.div>
                 </div>
 
@@ -145,6 +174,7 @@ const Portfolio: React.FC = () => {
                     <div>
                       <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
                       <p className="text-white/80">{project.category}</p>
+                      <p className="text-white/60 text-sm mt-1">{project.client}</p>
                     </div>
                     <motion.div
                       whileHover={{ scale: 1.2, rotate: 45 }}
@@ -155,19 +185,56 @@ const Portfolio: React.FC = () => {
                   </motion.div>
                 </div>
 
-                {/* Hover Overlay */}
+                {/* Detailed Hover Overlay */}
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  className="absolute inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center"
+                  initial={{ opacity: 0, x: "100%" }}
+                  whileHover={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="absolute inset-0 bg-black/95 backdrop-blur-sm flex flex-col justify-between p-8"
                 >
-                  <motion.button
+                  <div>
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-20 h-20 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                        <img
+                          src={project.logo}
+                          alt={`${project.client} logo`}
+                          className="w-14 h-14 object-cover rounded-full"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold text-white">{project.title}</h4>
+                        <p className="text-white/80 font-medium">{project.client}</p>
+                        <p className="text-white/60 text-sm">{project.category}</p>
+                      </div>
+                    </div>
+                    
+                    <p className="text-white/90 text-sm mb-6 leading-relaxed">
+                      {project.description}
+                    </p>
+                    
+                    <div className="mb-6">
+                      <h5 className="text-white font-semibold mb-3 text-sm">Technologies Used:</h5>
+                      <div className="flex flex-wrap gap-2">
+                        {project.technologies.map((tech, i) => (
+                          <span key={i} className="px-3 py-1 bg-white/20 text-white text-xs rounded-full border border-white/30 backdrop-blur-sm">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <motion.a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-white text-black px-6 py-3 rounded-full font-semibold"
+                    className="w-full bg-white text-black font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 hover:shadow-lg transition-all duration-300"
                   >
-                    View Project
-                  </motion.button>
+                    <span>View Live Project</span>
+                    <ExternalLink size={18} />
+                  </motion.a>
                 </motion.div>
               </div>
             </motion.div>

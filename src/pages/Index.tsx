@@ -5,6 +5,7 @@ import Achievements from '@/components/Achievements';
 import Testimonials from '@/components/Testimonials';
 import Process from '@/components/Process';
 import Portfolio from '@/components/Portfolio';
+import BlogSection from '@/components/BlogSection';
 import BrandsSlider from '@/components/BrandsSlider';
 import LevelUpCTA from '@/components/LevelUpCTA';
 import Footer from '@/components/Footer';
@@ -19,6 +20,7 @@ const Index = () => {
         <Testimonials />
         <Process />
         <Portfolio />
+        <BlogSection />
         <BrandsSlider />
         <LevelUpCTA />
       </main>

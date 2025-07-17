@@ -12,3 +12,21 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Sitemap
+Sitemap: https://verticalflow.gr/sitemap.xml
+
+# Optimization for Greek content
+User-agent: *
+Crawl-delay: 1
+
+# Allow important pages
+Allow: /blog/
+Allow: /portfolio/
+Allow: /services/
+
+# Block non-essential paths
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /public/
