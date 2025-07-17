@@ -33,21 +33,24 @@ const Navigation: React.FC = () => {
   }, []);
 
   return (
-    <header className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-6xl px-4">
+    <header className="fixed top-2 sm:top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-6xl px-2 sm:px-4">
       {/* Grid background for header area */}
       <div className="absolute inset-0 grid-bg rounded-full" />
       <nav 
         ref={navRef}
-        className="relative bg-background/95 backdrop-blur-md border border-border rounded-full px-6 py-4 shadow-lg nav-glow"
+        className="relative bg-background/95 backdrop-blur-md border border-border rounded-full px-3 sm:px-6 py-3 sm:py-4 shadow-lg nav-glow"
       >
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
             <div 
               ref={logoRef}
-              className="text-2xl font-black text-foreground hover-glow cursor-pointer"
+              className="text-lg sm:text-xl md:text-2xl font-black text-foreground cursor-pointer relative group"
             >
-              kree8
+              <span className="inline-block animate-pulse group-hover:animate-bounce transition-all duration-300">
+                Verticalflow
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md blur-sm -z-10" />
             </div>
           </div>
 
@@ -75,9 +78,10 @@ const Navigation: React.FC = () => {
             <Button 
               variant="default" 
               size="sm"
-              className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-6 font-semibold shadow-md button-glow"
+              className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-3 sm:px-6 py-2 text-xs sm:text-sm font-semibold shadow-md button-glow"
             >
-              Plans and Pricing
+              <span className="hidden sm:inline">Plans and Pricing</span>
+              <span className="sm:hidden">Pricing</span>
             </Button>
           </div>
         </div>
