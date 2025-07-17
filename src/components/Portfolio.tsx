@@ -147,7 +147,7 @@ const Portfolio: React.FC = () => {
                   >
                     <img
                       src={project.image}
-                      alt={project.title}
+                      alt={`${project.title} - ${project.category} project by VerticalFlow Digital Agency Θεσσαλονίκη`}
                       className="w-64 h-48 object-cover rounded-2xl shadow-2xl"
                     />
                     <div className="absolute inset-0 bg-white/10 rounded-2xl" />
@@ -156,7 +156,7 @@ const Portfolio: React.FC = () => {
                     <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white shadow-lg">
                       <img
                         src={project.logo}
-                        alt={`${project.client} logo`}
+                        alt={`${project.client} logo - VerticalFlow client branding design`}
                         className="w-10 h-10 object-cover rounded-full"
                       />
                     </div>
@@ -197,7 +197,7 @@ const Portfolio: React.FC = () => {
                       <div className="w-20 h-20 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white shadow-lg">
                         <img
                           src={project.logo}
-                          alt={`${project.client} logo`}
+                          alt={`${project.client} logo - VerticalFlow digital marketing success story`}
                           className="w-14 h-14 object-cover rounded-full"
                         />
                       </div>

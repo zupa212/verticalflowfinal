@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import Lottie, { LottieRefCurrentProps } from 'lottie-react';
 
 interface LottieAnimationProps {
-  animationData: any;
+  animationData?: any;
+  src?: string;
+  width?: number;
+  height?: number;
   className?: string;
   loop?: boolean;
   autoplay?: boolean;
@@ -13,6 +16,9 @@ interface LottieAnimationProps {
 
 export const LottieAnimation: React.FC<LottieAnimationProps> = ({
   animationData,
+  src,
+  width,
+  height,
   className = '',
   loop = true,
   autoplay = true,
@@ -24,6 +30,16 @@ export const LottieAnimation: React.FC<LottieAnimationProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
+  const [lottieData, setLottieData] = useState<any>(animationData);
+
+  useEffect(() => {
+    if (src && !animationData) {
+      fetch(src)
+        .then(response => response.json())
+        .then(data => setLottieData(data))
+        .catch(error => console.warn('Failed to load Lottie animation:', error));
+    }
+  }, [src, animationData]);
 
   useEffect(() => {
     if (trigger === 'immediate') {
@@ -83,6 +99,12 @@ export const LottieAnimation: React.FC<LottieAnimationProps> = ({
     onComplete?.();
   };
 
+  if (!lottieData && !animationData) {
+    return <div className={`${className} animate-pulse bg-muted rounded`} style={{ width, height }} />;
+  }
+
+  const containerStyle = width || height ? { width, height } : { width: '100%', height: '100%' };
+
   return (
     <div
       ref={containerRef}
@@ -90,11 +112,14 @@ export const LottieAnimation: React.FC<LottieAnimationProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
-      style={{ cursor: trigger === 'click' ? 'pointer' : 'default' }}
+      style={{ 
+        cursor: trigger === 'click' ? 'pointer' : 'default',
+        ...containerStyle
+      }}
     >
       <Lottie
         lottieRef={lottieRef}
-        animationData={animationData}
+        animationData={lottieData || animationData}
         loop={loop}
         autoplay={trigger === 'immediate' ? autoplay : false}
         onComplete={handleComplete}
@@ -112,10 +137,11 @@ export const LoadingAnimation: React.FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size
     lg: 'w-24 h-24'
   };
 
-  // Simple CSS animation as fallback if Lottie is not available
   return (
     <div className={`${sizeClasses[size]} animate-spin`}>
       <div className="w-full h-full border-4 border-primary border-t-transparent rounded-full"></div>
     </div>
   );
 };
+
+export default LottieAnimation;

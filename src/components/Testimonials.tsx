@@ -140,7 +140,7 @@ const Testimonials: React.FC = () => {
               <div className="relative mb-6 rounded-xl overflow-hidden">
                 <img 
                   src={testimonial.image} 
-                  alt="Portfolio work"
+                  alt={`VerticalFlow portfolio work showcasing ${testimonial.role} for ${testimonial.author} - digital agency Θεσσαλονίκη success story`}
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
@@ -158,7 +158,7 @@ const Testimonials: React.FC = () => {
               <div className="flex items-center gap-3">
                 <img 
                   src={testimonial.avatar} 
-                  alt={testimonial.author}
+                  alt={`${testimonial.author} profile photo - VerticalFlow client testimonial`}
                   className="w-10 h-10 rounded-full object-cover"
                 />
                 <div>

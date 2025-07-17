@@ -2,10 +2,25 @@ import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { motion } from 'framer-motion';
+import { useSEO, generatePageSEO } from '@/hooks/useSEO';
+import { generatePersonSchema, generateLocalBusinessSchema } from '@/utils/structuredData';
 import { Award, Users, TrendingUp, Target, Star, ArrowRight, Play, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const About = () => {
+  const seoData = generatePageSEO('about');
+  
+  useSEO({
+    ...seoData,
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@graph": [
+        generatePersonSchema(),
+        generateLocalBusinessSchema()
+      ]
+    }
+  });
+
   const fadeInUp = {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },

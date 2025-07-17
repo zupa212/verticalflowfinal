@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Clock, FileText, Infinity } from 'lucide-react';
 import { gsap } from 'gsap';
 import TypewriterText from '@/components/TypewriterText';
+import { LottieAnimation } from '@/components/LottieAnimation';
 
 const Hero: React.FC = () => {
   const heroRef = useRef<HTMLElement>(null);

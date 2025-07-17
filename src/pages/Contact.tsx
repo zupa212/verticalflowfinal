@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { motion } from 'framer-motion';
+import { useSEO, generatePageSEO } from '@/hooks/useSEO';
+import { generateLocalBusinessSchema } from '@/utils/structuredData';
 import { Mail, Phone, MapPin, Clock, Send, ArrowRight, Instagram, Facebook, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +11,18 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 
 const Contact = () => {
+  const seoData = generatePageSEO('contact');
+  
+  useSEO({
+    ...seoData,
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@graph": [
+        generateLocalBusinessSchema()
+      ]
+    }
+  });
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',

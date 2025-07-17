@@ -3,10 +3,29 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import FAQ from '@/components/FAQ';
 import { motion } from 'framer-motion';
+import { useSEO, generatePageSEO } from '@/hooks/useSEO';
+import { generateServiceSchema, generateLocalBusinessSchema } from '@/utils/structuredData';
 import { Music, TrendingUp, Target, Users, Video, ArrowRight, Zap, Eye, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const TikTokGreece = () => {
+  const seoData = generatePageSEO('tiktok-greece');
+  
+  useSEO({
+    ...seoData,
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@graph": [
+        generateServiceSchema(
+          "TikTok Marketing Greece",
+          "https://verticalflow.gr/tiktok-greece",
+          "Εξειδικευμένη στρατηγική TikTok Marketing για την ελληνική αγορά. Δημιουργία viral TikTok videos και content που φέρνει followers και engagement."
+        ),
+        generateLocalBusinessSchema()
+      ]
+    }
+  });
+
   const fadeInUp = {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },

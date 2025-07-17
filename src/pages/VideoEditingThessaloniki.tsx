@@ -3,10 +3,29 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import FAQ from '@/components/FAQ';
 import { motion } from 'framer-motion';
+import { useSEO, generatePageSEO } from '@/hooks/useSEO';
+import { generateServiceSchema, generateLocalBusinessSchema } from '@/utils/structuredData';
 import { Video, Scissors, Palette, Music, Zap, ArrowRight, Play, Award, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const VideoEditingThessaloniki = () => {
+  const seoData = generatePageSEO('video-editing-thessaloniki');
+  
+  useSEO({
+    ...seoData,
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@graph": [
+        generateServiceSchema(
+          "Video Editing Θεσσαλονίκη",
+          "https://verticalflow.gr/video-editing-thessaloniki",
+          "Επαγγελματικές υπηρεσίες Video Editing στη Θεσσαλονίκη. Μοντάζ για Reels, YouTube, εταιρικά videos και personal branding content."
+        ),
+        generateLocalBusinessSchema()
+      ]
+    }
+  });
+
   const fadeInUp = {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
