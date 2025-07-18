@@ -98,7 +98,7 @@ export const PageSkeleton = ({ type = 'default' }: { type?: 'default' | 'blog' |
 };
 
 // HOC for lazy loading with custom loading states
-export const withLazyLoading = <P extends {}>(
+export const withLazyLoading = <P extends Record<string, any> = {}>(
   importFunc: () => Promise<{ default: ComponentType<P> }>,
   fallbackType: 'default' | 'blog' | 'service' = 'default'
 ) => {
@@ -106,7 +106,7 @@ export const withLazyLoading = <P extends {}>(
 
   return (props: P) => (
     <Suspense fallback={<PageSkeleton type={fallbackType} />}>
-      <LazyComponent {...props} />
+      <LazyComponent {...(props as any)} />
     </Suspense>
   );
 };

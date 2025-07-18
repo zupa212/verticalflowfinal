@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
+import ReelsSection from '@/components/ReelsSection';
 import Achievements from '@/components/Achievements';
 import Testimonials from '@/components/Testimonials';
 import Process from '@/components/Process';
@@ -31,6 +32,7 @@ const Index = () => {
       <Navigation />
       <main>
         <Hero />
+        <ReelsSection />
         <Achievements />
         <Testimonials />
         <Process />
