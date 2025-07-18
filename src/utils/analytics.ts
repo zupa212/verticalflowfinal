@@ -1,4 +1,4 @@
-import { onCLS, onFID, onFCP, onLCP, onTTFB } from 'web-vitals';
+import { onCLS, onINP, onFCP, onLCP, onTTFB } from 'web-vitals';
 
 declare global {
   interface Window {
@@ -157,8 +157,8 @@ export const performanceObserver = () => {
     analytics.timing('CLS', metric.value, 'web_vitals');
   });
 
-  onFID((metric) => {
-    analytics.timing('FID', metric.value, 'web_vitals');
+  onINP((metric) => {
+    analytics.timing('INP', metric.value, 'web_vitals');
   });
 
   onFCP((metric) => {
