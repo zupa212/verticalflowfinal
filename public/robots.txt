@@ -1,8 +1,19 @@
+
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
 
 User-agent: Twitterbot
 Allow: /
@@ -10,23 +21,58 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
 User-agent: *
 Allow: /
+Crawl-delay: 2
 
 # Sitemap
 Sitemap: https://verticalflow.gr/sitemap.xml
 
-# Optimization for Greek content
+# Enhanced rules for Greek market
 User-agent: *
-Crawl-delay: 1
-
-# Allow important pages
+Allow: /el/
+Allow: /en/
 Allow: /blog/
 Allow: /portfolio/
 Allow: /services/
+Allow: /reels-thessaloniki
+Allow: /social-media-thessaloniki
+Allow: /video-editing-thessaloniki
+Allow: /tiktok-greece
+Allow: /about
+Allow: /contact
 
 # Block non-essential paths
 Disallow: /api/
 Disallow: /admin/
 Disallow: /_next/
-Disallow: /public/
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /.git/
+Disallow: /dist/
+Disallow: /build/
+Disallow: /temp/
+Disallow: /cache/
+Disallow: /*?*utm_source=
+Disallow: /*?*utm_medium=
+Disallow: /*?*utm_campaign=
+Disallow: /*?*fbclid=
+Disallow: /*?*gclid=
+
+# Performance optimization
+User-agent: *
+Request-rate: 1/1s
+
+# Cache optimization hints
+Cache-control: public, max-age=86400
+
+# Greek SEO optimization
+User-agent: *
+Allow: /θεσσαλονίκη/
+Allow: /ελλάδα/

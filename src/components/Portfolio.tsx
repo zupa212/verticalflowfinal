@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ExternalLink } from 'lucide-react';
+import LazyImage from '@/components/LazyImage';
+import { useAnalytics } from '@/utils/analytics';
 import portfolio1 from '@/assets/portfolio-1.jpg';
 import portfolio2 from '@/assets/portfolio-2.jpg';
 import portfolio3 from '@/assets/portfolio-3.jpg';
@@ -13,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 const Portfolio: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const { trackEvent } = useAnalytics();
 
   useEffect(() => {
     if (gridRef.current) {
@@ -38,6 +41,14 @@ const Portfolio: React.FC = () => {
       );
     }
   }, []);
+
+  const handleProjectClick = (project: any) => {
+    trackEvent({
+      action: 'project_click',
+      category: 'portfolio',
+      label: project.title,
+    });
+  };
 
   const projects = [
     {
@@ -133,6 +144,7 @@ const Portfolio: React.FC = () => {
               whileHover={{ scale: 1.02, y: -5 }}
               className="group relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
               style={{ aspectRatio: '4/5' }}
+              onClick={() => handleProjectClick(project)}
             >
               {/* Background Gradient */}
               <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-80`} />
@@ -145,19 +157,25 @@ const Portfolio: React.FC = () => {
                     transition={{ duration: 0.3 }}
                     className="relative"
                   >
-                    <img
+                    <LazyImage
                       src={project.image}
-                      alt={`${project.title} - ${project.category} project by VerticalFlow Digital Agency Θεσσαλονίκη`}
-                      className="w-64 h-48 object-cover rounded-2xl shadow-2xl"
+                      alt={`${project.title} - ${project.category} project by VerticalFlow Digital Agency Θεσσαλονίκη showcasing ${project.description.slice(0, 50)}...`}
+                      className="w-64 h-48 rounded-2xl shadow-2xl"
+                      width={256}
+                      height={192}
+                      priority={index < 2}
                     />
                     <div className="absolute inset-0 bg-white/10 rounded-2xl" />
                     
                     {/* Project Logo */}
                     <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white shadow-lg">
-                      <img
+                      <LazyImage
                         src={project.logo}
-                        alt={`${project.client} logo - VerticalFlow client branding design`}
-                        className="w-10 h-10 object-cover rounded-full"
+                        alt={`${project.client} company logo - VerticalFlow client success story in ${project.category}`}
+                        className="w-10 h-10 rounded-full"
+                        width={40}
+                        height={40}
+                        priority={index < 2}
                       />
                     </div>
                   </motion.div>
