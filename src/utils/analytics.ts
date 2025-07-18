@@ -1,338 +1,224 @@
 
-// Google Analytics 4 Integration
-interface GAEvent {
-  action: string;
-  category: string;
-  label?: string;
-  value?: number;
-}
-
-interface GAPageView {
-  page_title: string;
-  page_location: string;
-  page_path: string;
-  content_group1?: string; // Service type
-  content_group2?: string; // Language
-  content_group3?: string; // User type
-}
-
-interface GAConversion {
-  currency?: string;
-  value?: number;
-  transaction_id?: string;
-  items?: Array<{
-    item_id: string;
-    item_name: string;
-    category: string;
-    quantity: number;
-    price: number;
-  }>;
-}
+import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
 
 declare global {
   interface Window {
-    gtag: (
-      command: 'config' | 'event' | 'js' | 'get',
-      targetId: string | Date,
-      config?: any
-    ) => void;
+    gtag: (...args: any[]) => void;
     dataLayer: any[];
   }
 }
 
-class VerticalFlowAnalytics {
-  private trackingId: string;
-  private debugMode: boolean;
-  private isInitialized: boolean = false;
-
-  constructor(trackingId: string = 'G-XXXXXXXXXX', debugMode: boolean = false) {
-    this.trackingId = trackingId;
-    this.debugMode = debugMode;
-  }
-
+export const analytics = {
   // Initialize Google Analytics
-  init(): void {
-    if (typeof window === 'undefined' || this.isInitialized) return;
+  init: () => {
+    const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+    
+    if (!GA_TRACKING_ID) {
+      console.warn('GA_TRACKING_ID not found in environment variables');
+      return;
+    }
 
-    // Create script elements
-    const gtag = document.createElement('script');
-    gtag.async = true;
-    gtag.src = `https://www.googletagmanager.com/gtag/js?id=${this.trackingId}`;
-    document.head.appendChild(gtag);
+    // Load Google Analytics script
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`;
+    document.head.appendChild(script);
 
-    const gtagScript = document.createElement('script');
-    gtagScript.innerHTML = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${this.trackingId}', {
-        page_title: document.title,
-        page_location: window.location.href,
-        custom_map: {
-          'dimension1': 'service_type',
-          'dimension2': 'language',
-          'dimension3': 'user_type',
-          'dimension4': 'content_category'
-        },
-        enhanced_ecommerce: true,
-        link_attribution: true,
-        anonymize_ip: true,
-        allow_google_signals: true,
-        send_page_view: false
-      });
-    `;
-    document.head.appendChild(gtagScript);
-
-    this.isInitialized = true;
-    this.log('Analytics initialized');
-  }
-
-  // Track page views
-  pageView(data: Partial<GAPageView> = {}): void {
-    if (!this.isInitialized) return;
-
-    const pageData: GAPageView = {
+    // Initialize gtag
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function() {
+      window.dataLayer.push(arguments);
+    };
+    
+    window.gtag('js', new Date());
+    window.gtag('config', GA_TRACKING_ID, {
       page_title: document.title,
       page_location: window.location.href,
-      page_path: window.location.pathname,
-      content_group1: this.getServiceType(),
-      content_group2: this.getLanguage(),
-      content_group3: this.getUserType(),
-      ...data,
-    };
+    });
 
-    window.gtag('event', 'page_view', pageData);
-    this.log('Page view tracked', pageData);
-  }
+    console.log('Google Analytics initialized');
+  },
+
+  // Track page views
+  pageView: (url?: string) => {
+    if (typeof window.gtag !== 'function') return;
+    
+    window.gtag('config', import.meta.env.VITE_GA_TRACKING_ID, {
+      page_path: url || window.location.pathname,
+      page_title: document.title,
+      page_location: window.location.href,
+    });
+  },
 
   // Track custom events
-  event({ action, category, label, value }: GAEvent): void {
-    if (!this.isInitialized) return;
-
+  event: (action: string, parameters?: any) => {
+    if (typeof window.gtag !== 'function') return;
+    
     window.gtag('event', action, {
-      event_category: category,
-      event_label: label,
-      value: value,
-      service_type: this.getServiceType(),
-      language: this.getLanguage(),
+      event_category: 'engagement',
+      event_label: parameters?.label,
+      value: parameters?.value,
+      ...parameters,
     });
+  },
 
-    this.log('Event tracked', { action, category, label, value });
-  }
-
-  // Track conversions
-  conversion(conversionData: GAConversion): void {
-    if (!this.isInitialized) return;
-
-    window.gtag('event', 'conversion', {
-      send_to: this.trackingId,
-      ...conversionData,
+  // Track button clicks
+  buttonClick: (buttonName: string, location?: string) => {
+    analytics.event('click', {
+      event_category: 'button',
+      event_label: buttonName,
+      event_location: location || window.location.pathname,
     });
+  },
 
-    this.log('Conversion tracked', conversionData);
-  }
-
-  // Track form interactions
-  formInteraction(formName: string, action: string, fieldName?: string): void {
-    this.event({
-      action: 'form_interaction',
-      category: 'engagement',
-      label: `${formName}_${action}${fieldName ? `_${fieldName}` : ''}`,
+  // Track form submissions
+  formSubmit: (formName: string, success: boolean = true) => {
+    analytics.event('form_submit', {
+      event_category: 'form',
+      event_label: formName,
+      success: success,
     });
-  }
-
-  // Track video interactions
-  videoInteraction(videoTitle: string, action: string, progress?: number): void {
-    this.event({
-      action: 'video_interaction',
-      category: 'engagement',
-      label: `${videoTitle}_${action}`,
-      value: progress,
-    });
-  }
+  },
 
   // Track scroll depth
-  scrollDepth(percentage: number): void {
-    this.event({
-      action: 'scroll_depth',
-      category: 'engagement',
-      label: `${percentage}%`,
+  scrollDepth: (percentage: number) => {
+    analytics.event('scroll_depth', {
+      event_category: 'engagement',
+      event_label: `${percentage}%`,
       value: percentage,
     });
-  }
+  },
 
-  // Track file downloads
-  fileDownload(fileName: string, fileType: string): void {
-    this.event({
-      action: 'file_download',
-      category: 'engagement',
-      label: `${fileName}.${fileType}`,
+  // Track video interactions
+  videoPlay: (videoTitle: string) => {
+    analytics.event('video_play', {
+      event_category: 'video',
+      event_label: videoTitle,
     });
-  }
+  },
+
+  videoPause: (videoTitle: string, progress: number) => {
+    analytics.event('video_pause', {
+      event_category: 'video',
+      event_label: videoTitle,
+      value: Math.round(progress),
+    });
+  },
+
+  // Track downloads
+  download: (fileName: string, fileType: string) => {
+    analytics.event('file_download', {
+      event_category: 'download',
+      event_label: fileName,
+      file_type: fileType,
+    });
+  },
 
   // Track external link clicks
-  externalLinkClick(url: string, linkText: string): void {
-    this.event({
-      action: 'external_link_click',
-      category: 'navigation',
-      label: `${linkText} -> ${url}`,
+  externalLink: (url: string) => {
+    analytics.event('click', {
+      event_category: 'external_link',
+      event_label: url,
+    });
+  },
+
+  // Track search
+  search: (searchTerm: string, results?: number) => {
+    analytics.event('search', {
+      search_term: searchTerm,
+      event_category: 'search',
+      value: results,
+    });
+  },
+
+  // Track page timing
+  timing: (name: string, value: number, category: string = 'performance') => {
+    analytics.event('timing_complete', {
+      event_category: category,
+      event_label: name,
+      value: Math.round(value),
+    });
+  },
+
+  // Track errors
+  exception: (description: string, fatal: boolean = false) => {
+    if (typeof window.gtag !== 'function') return;
+    
+    window.gtag('event', 'exception', {
+      description: description,
+      fatal: fatal,
     });
   }
+};
 
-  // Track search queries
-  search(query: string, resultsCount?: number): void {
-    window.gtag('event', 'search', {
-      search_term: query,
-      content_group1: this.getServiceType(),
-      value: resultsCount,
-    });
-  }
+// Performance Observer for Core Web Vitals
+export const performanceObserver = () => {
+  // Track Core Web Vitals
+  getCLS((metric) => {
+    analytics.timing('CLS', metric.value, 'web_vitals');
+  });
 
-  // Track social interactions
-  socialInteraction(network: string, action: string, target?: string): void {
-    this.event({
-      action: 'social_interaction',
-      category: 'social',
-      label: `${network}_${action}${target ? `_${target}` : ''}`,
-    });
-  }
+  getFID((metric) => {
+    analytics.timing('FID', metric.value, 'web_vitals');
+  });
 
-  // Performance tracking
-  performanceTiming(): void {
-    if (typeof window.performance === 'undefined') return;
+  getFCP((metric) => {
+    analytics.timing('FCP', metric.value, 'web_vitals');
+  });
 
+  getLCP((metric) => {
+    analytics.timing('LCP', metric.value, 'web_vitals');
+  });
+
+  getTTFB((metric) => {
+    analytics.timing('TTFB', metric.value, 'web_vitals');
+  });
+
+  // Track navigation timing
+  if ('performance' in window) {
     window.addEventListener('load', () => {
       setTimeout(() => {
-        const timing = window.performance.timing;
-        const loadTime = timing.loadEventEnd - timing.navigationStart;
-        const domReady = timing.domContentLoadedEventEnd - timing.navigationStart;
-        const firstPaint = timing.responseEnd - timing.fetchStart;
-
-        this.event({
-          action: 'performance_timing',
-          category: 'performance',
-          label: 'page_load_time',
-          value: Math.round(loadTime),
-        });
-
-        this.event({
-          action: 'performance_timing',
-          category: 'performance', 
-          label: 'dom_ready_time',
-          value: Math.round(domReady),
-        });
-
-        this.event({
-          action: 'performance_timing',
-          category: 'performance',
-          label: 'first_paint_time',
-          value: Math.round(firstPaint),
-        });
+        const perfData = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+        
+        if (perfData) {
+          analytics.timing('DOM_Content_Loaded', perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart);
+          analytics.timing('Load_Complete', perfData.loadEventEnd - perfData.loadEventStart);
+          analytics.timing('DNS_Lookup', perfData.domainLookupEnd - perfData.domainLookupStart);
+          analytics.timing('TCP_Connection', perfData.connectEnd - perfData.connectStart);
+        }
       }, 1000);
     });
   }
 
-  // Helper methods
-  private getServiceType(): string {
-    const path = window.location.pathname;
-    if (path.includes('reels')) return 'reels';
-    if (path.includes('social-media')) return 'social-media';
-    if (path.includes('video-editing')) return 'video-editing';
-    if (path.includes('tiktok')) return 'tiktok';
-    return 'general';
+  // Track resource timing for critical assets
+  if ('PerformanceObserver' in window) {
+    const resourceObserver = new PerformanceObserver((list) => {
+      list.getEntries().forEach((entry) => {
+        const resourceEntry = entry as PerformanceResourceTiming;
+        
+        // Track slow resources (> 1 second)
+        if (resourceEntry.duration > 1000) {
+          analytics.timing('Slow_Resource', resourceEntry.duration, 'performance');
+        }
+      });
+    });
+
+    resourceObserver.observe({ entryTypes: ['resource'] });
   }
-
-  private getLanguage(): string {
-    return document.documentElement.lang || 'el';
-  }
-
-  private getUserType(): string {
-    // You can implement user type detection based on your business logic
-    return 'visitor'; // visitor, lead, customer
-  }
-
-  private log(message: string, data?: any): void {
-    if (this.debugMode) {
-      console.log(`[VerticalFlow Analytics] ${message}`, data);
-    }
-  }
-}
-
-// Singleton instance
-export const analytics = new VerticalFlowAnalytics(
-  import.meta.env.VITE_GA_TRACKING_ID || 'G-XXXXXXXXXX',
-  import.meta.env.DEV
-);
-
-// React hook for analytics
-export const useAnalytics = () => {
-  const trackPageView = (data?: Partial<GAPageView>) => analytics.pageView(data);
-  const trackEvent = (event: GAEvent) => analytics.event(event);
-  const trackConversion = (data: GAConversion) => analytics.conversion(data);
-  const trackFormInteraction = (formName: string, action: string, fieldName?: string) => 
-    analytics.formInteraction(formName, action, fieldName);
-
-  return {
-    trackPageView,
-    trackEvent,
-    trackConversion,
-    trackFormInteraction,
-    analytics,
-  };
 };
 
-// Enhanced performance monitoring
-export const performanceObserver = () => {
-  if (typeof window === 'undefined') return;
+// Enhanced error tracking
+export const setupErrorTracking = () => {
+  // Global error handler
+  window.addEventListener('error', (event) => {
+    analytics.exception(`${event.error?.name}: ${event.error?.message}`, false);
+  });
 
-  // Core Web Vitals
-  import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-    getCLS((metric) => {
-      analytics.event({
-        action: 'web_vitals',
-        category: 'performance',
-        label: 'CLS',
-        value: Math.round(metric.value * 1000),
-      });
-    });
-
-    getFID((metric) => {
-      analytics.event({
-        action: 'web_vitals',
-        category: 'performance',
-        label: 'FID',
-        value: Math.round(metric.value),
-      });
-    });
-
-    getFCP((metric) => {
-      analytics.event({
-        action: 'web_vitals',
-        category: 'performance',
-        label: 'FCP',
-        value: Math.round(metric.value),
-      });
-    });
-
-    getLCP((metric) => {
-      analytics.event({
-        action: 'web_vitals',
-        category: 'performance',
-        label: 'LCP',
-        value: Math.round(metric.value),
-      });
-    });
-
-    getTTFB((metric) => {
-      analytics.event({
-        action: 'web_vitals',
-        category: 'performance',
-        label: 'TTFB',
-        value: Math.round(metric.value),
-      });
-    });
-  }).catch(() => {
-    // Fallback if web-vitals package is not available
-    analytics.performanceTiming();
+  // Unhandled promise rejections
+  window.addEventListener('unhandledrejection', (event) => {
+    analytics.exception(`Unhandled Promise: ${event.reason}`, false);
   });
 };
+
+// Initialize error tracking
+setupErrorTracking();

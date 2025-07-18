@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, lazy } from "react";
 import { analytics, performanceObserver } from "@/utils/analytics";
 import { PageSkeleton } from "@/utils/codeSplitting";
 
@@ -17,8 +17,6 @@ const VideoEditingThessaloniki = lazy(() => import("./pages/VideoEditingThessalo
 const TikTokGreece = lazy(() => import("./pages/TikTokGreece"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
-
-import { lazy } from "react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
