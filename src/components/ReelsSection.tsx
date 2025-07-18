@@ -29,86 +29,94 @@ const ReelsSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-background relative overflow-hidden">
-      {/* Grid Pattern Background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="grid-bg"></div>
+    <section className="py-16 lg:py-24 bg-background relative overflow-hidden">
+      {/* Enhanced Grid Pattern Background */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div 
+          className="w-full h-full"
+          style={{
+            backgroundImage: `
+              linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)
+            `,
+            backgroundSize: '24px 24px'
+          }}
+        ></div>
       </div>
       
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="container mx-auto px-4 max-w-4xl">
         {/* Mobile Interface Container */}
-        <div className="relative mx-auto max-w-md lg:max-w-2xl">
-          {/* Central Title */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-6xl font-bold text-foreground tracking-tight">
+        <div className="relative mx-auto max-w-sm lg:max-w-lg">
+          {/* Central Title - More prominent */}
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-5xl lg:text-7xl font-black text-foreground tracking-tighter mb-3">
               REELS
             </h2>
-            <p className="text-muted-foreground mt-4 text-lg">
-              Engaging video content that captivates your audience
+            <p className="text-muted-foreground text-base lg:text-lg font-medium">
+              Captivating video stories that engage
             </p>
           </div>
 
-          {/* Semi-circular Orbit Container */}
-          <div className="relative h-64 lg:h-80">
-            {/* Faint Arc Path */}
+          {/* Semi-circular Orbit Container - Enhanced */}
+          <div className="relative h-72 lg:h-96 mb-8">
+            {/* Enhanced Arc Path */}
             <svg 
               className="absolute inset-0 w-full h-full" 
-              viewBox="0 0 400 200" 
+              viewBox="0 0 400 240" 
               fill="none"
             >
               <path
-                d="M 50 150 Q 200 50 350 150"
+                d="M 40 180 Q 200 40 360 180"
                 stroke="hsl(var(--border))"
-                strokeWidth="2"
-                strokeDasharray="5,5"
-                opacity="0.3"
+                strokeWidth="1.5"
+                strokeDasharray="8,12"
+                opacity="0.4"
                 fill="none"
               />
             </svg>
 
-            {/* Video Cards positioned in semi-circle */}
+            {/* Video Cards positioned in perfect semi-circle */}
             {videoCards.map((card, index) => {
-              // Calculate position on the arc
-              const angle = (index * 60) - 90; // Spread cards across 180 degrees
-              const radiusX = 140;
-              const radiusY = 80;
-              const x = Math.cos(angle * Math.PI / 180) * radiusX;
-              const y = Math.sin(angle * Math.PI / 180) * radiusY;
+              // Enhanced positioning for perfect 180-degree arc
+              const angle = (index * 50) - 75; // Spread across 150 degrees, centered
+              const radius = 160;
+              const x = Math.cos(angle * Math.PI / 180) * radius;
+              const y = Math.sin(angle * Math.PI / 180) * radius * 0.7; // Flatten slightly
               
               return (
                 <div
                   key={card.id}
-                  className="absolute group cursor-pointer transform -translate-x-1/2 -translate-y-1/2 hover:scale-105 transition-all duration-300"
+                  className="absolute group cursor-pointer transform -translate-x-1/2 -translate-y-1/2 hover:scale-110 transition-all duration-500 ease-out"
                   style={{
                     left: `calc(50% + ${x}px)`,
-                    top: `calc(50% + ${y + 40}px)`,
-                    animationDelay: `${index * 0.2}s`
+                    top: `calc(50% + ${y + 60}px)`,
+                    animation: `fade-in 0.8s ease-out ${index * 0.15}s both`
                   }}
                 >
-                  {/* Card */}
-                  <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 w-24 lg:w-32">
-                    {/* Thumbnail */}
+                  {/* Enhanced Card with better shadows */}
+                  <div className="bg-card border border-border/50 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.15)] transition-all duration-500 w-28 lg:w-36 backdrop-blur-sm">
+                    {/* Thumbnail with enhanced overlay */}
                     <div className="relative aspect-[4/3] overflow-hidden">
                       <img
                         src={card.thumbnail}
                         alt={card.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
-                      {/* Play Button Overlay */}
-                      <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="w-6 h-6 lg:w-8 lg:h-8 bg-white/90 rounded-full flex items-center justify-center">
-                          <div className="w-0 h-0 border-l-[6px] lg:border-l-[8px] border-r-0 border-t-[4px] lg:border-t-[6px] border-b-[4px] lg:border-b-[6px] border-transparent border-l-primary ml-1"></div>
+                      {/* Enhanced Play Button */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <div className="w-8 h-8 lg:w-10 lg:h-10 bg-white/95 rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm">
+                          <div className="w-0 h-0 border-l-[8px] lg:border-l-[10px] border-r-0 border-t-[6px] lg:border-t-[7px] border-b-[6px] lg:border-b-[7px] border-transparent border-l-primary ml-1"></div>
                         </div>
                       </div>
-                      {/* Duration Badge */}
-                      <div className="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">
+                      {/* Enhanced Duration Badge */}
+                      <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs lg:text-sm px-2 py-1 rounded-lg font-medium backdrop-blur-sm">
                         {card.duration}
                       </div>
                     </div>
                     
-                    {/* Title */}
-                    <div className="p-2 lg:p-3">
-                      <h4 className="text-xs lg:text-sm font-semibold text-foreground line-clamp-2 leading-tight">
+                    {/* Enhanced Title Section */}
+                    <div className="p-3 lg:p-4">
+                      <h4 className="text-sm lg:text-base font-bold text-foreground line-clamp-2 leading-tight">
                         {card.title}
                       </h4>
                     </div>
@@ -118,10 +126,10 @@ const ReelsSection = () => {
             })}
           </div>
 
-          {/* Call to Action */}
-          <div className="text-center mt-16">
-            <button className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 rounded-full font-semibold transition-colors duration-300">
-              View All Reels
+          {/* Enhanced Call to Action */}
+          <div className="text-center">
+            <button className="bg-primary text-primary-foreground hover:bg-primary/90 px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
+              Explore All Reels
             </button>
           </div>
         </div>
