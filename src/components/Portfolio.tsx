@@ -4,7 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ExternalLink } from 'lucide-react';
 import LazyImage from '@/components/LazyImage';
-import { useAnalytics } from '@/utils/analytics';
+import { analytics } from '@/utils/analytics';
 import portfolio1 from '@/assets/portfolio-1.jpg';
 import portfolio2 from '@/assets/portfolio-2.jpg';
 import portfolio3 from '@/assets/portfolio-3.jpg';
@@ -15,7 +15,6 @@ gsap.registerPlugin(ScrollTrigger);
 const Portfolio: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-  const { trackEvent } = useAnalytics();
 
   useEffect(() => {
     if (gridRef.current) {
@@ -43,10 +42,9 @@ const Portfolio: React.FC = () => {
   }, []);
 
   const handleProjectClick = (project: any) => {
-    trackEvent({
-      action: 'project_click',
-      category: 'portfolio',
-      label: project.title,
+    analytics.event('project_click', {
+      event_category: 'portfolio',
+      event_label: project.title,
     });
   };
 

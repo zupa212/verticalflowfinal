@@ -1,5 +1,4 @@
-
-import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
+import { onCLS, onFID, onFCP, onLCP, onTTFB } from 'web-vitals';
 
 declare global {
   interface Window {
@@ -153,24 +152,24 @@ export const analytics = {
 
 // Performance Observer for Core Web Vitals
 export const performanceObserver = () => {
-  // Track Core Web Vitals
-  getCLS((metric) => {
+  // Track Core Web Vitals using the correct web-vitals API
+  onCLS((metric) => {
     analytics.timing('CLS', metric.value, 'web_vitals');
   });
 
-  getFID((metric) => {
+  onFID((metric) => {
     analytics.timing('FID', metric.value, 'web_vitals');
   });
 
-  getFCP((metric) => {
+  onFCP((metric) => {
     analytics.timing('FCP', metric.value, 'web_vitals');
   });
 
-  getLCP((metric) => {
+  onLCP((metric) => {
     analytics.timing('LCP', metric.value, 'web_vitals');
   });
 
-  getTTFB((metric) => {
+  onTTFB((metric) => {
     analytics.timing('TTFB', metric.value, 'web_vitals');
   });
 
