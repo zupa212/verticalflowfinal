@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { gsap } from 'gsap';
@@ -47,7 +48,7 @@ const Navigation: React.FC = () => {
               ref={logoRef}
               className="text-lg sm:text-xl md:text-2xl font-black text-foreground cursor-pointer relative group"
             >
-              <span className="inline-block animate-pulse group-hover:animate-bounce transition-all duration-300">
+              <span className="inline-block group-hover:animate-bounce transition-all duration-300">
                 Verticalflow
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md blur-sm -z-10" />

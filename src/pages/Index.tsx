@@ -36,13 +36,13 @@ const Index = () => {
         <Hero />
         <ReelsSection />
         <Achievements />
-        <ComparisonSection />
         <Testimonials />
         <Process />
         <Portfolio />
         <BlogSection />
         <BrandsSlider />
         <LevelUpCTA />
+        <ComparisonSection />
       </main>
       <Footer />
     </div>
