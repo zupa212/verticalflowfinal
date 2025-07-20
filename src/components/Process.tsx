@@ -98,52 +98,66 @@ const Process: React.FC = () => {
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left Column - Video Preview Panel */}
+          {/* Left Column - Interactive Card */}
           <motion.div
             initial={{ x: -50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="flex justify-center lg:justify-start"
+            className="flex justify-center"
           >
-            <div className="w-full max-w-md lg:max-w-lg">
-              <div className="bg-card border border-border rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="aspect-video bg-muted rounded-xl overflow-hidden relative group">
-                  {/* Video Preview Mockup */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                    <div className="text-center space-y-4">
-                      <div className="w-16 h-16 bg-background/80 rounded-full flex items-center justify-center backdrop-blur-sm shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <div className="w-0 h-0 border-l-6 border-r-0 border-t-4 border-b-4 border-l-primary border-t-transparent border-b-transparent ml-1"></div>
-                      </div>
-                      <p className="text-sm text-muted-foreground font-medium">Sample Design Process</p>
-                    </div>
-                  </div>
-                  
-                  {/* Grid overlay for design tool aesthetic */}
-                  <div className="absolute inset-0 opacity-10">
-                    <div className="grid grid-cols-8 grid-rows-6 h-full w-full">
-                      {[...Array(48)].map((_, i) => (
-                        <div key={i} className="border border-border/30"></div>
-                      ))}
-                    </div>
-                  </div>
+            <div className="relative">
+              {/* Most Popular Badge */}
+              <motion.div
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10"
+              >
+                <div className="flex items-center gap-2 bg-background border border-border rounded-full px-4 py-2 shadow-lg">
+                  <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                  <span className="text-sm font-semibold">Most popular</span>
                 </div>
-                
-                <div className="mt-4 text-center">
-                  <h4 className="font-semibold text-foreground">Watch Our Process</h4>
-                  <p className="text-sm text-muted-foreground mt-1">See how we transform your ideas into reality</p>
+              </motion.div>
+
+              {/* Main Card */}
+              <motion.div
+                whileHover={{ scale: 1.05, rotateY: 5 }}
+                transition={{ duration: 0.3 }}
+                className="bg-brand text-brand-foreground rounded-3xl p-12 w-80 h-96 flex flex-col items-center justify-center text-center shadow-2xl"
+                style={{ 
+                  background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+                  transform: 'perspective(1000px) rotateX(5deg)'
+                }}
+              >
+                <motion.div
+                  animate={{ y: [-10, 10, -10] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                  className="mb-8"
+                >
+                  <ArrowDown className="w-12 h-12 text-white" />
+                </motion.div>
+
+                <h3 className="text-2xl font-bold mb-4 text-white">
+                  You have done
+                  <br />
+                  your part
+                </h3>
+
+                <div className="mt-8">
+                  <span className="text-white/80">It's our turn now</span>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
 
-          {/* Right Column - Step Cards */}
+          {/* Right Column - Steps */}
           <motion.div
             initial={{ x: 50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="space-y-6"
+            className="space-y-12"
           >
             {steps.map((step, index) => (
               <motion.div
@@ -151,28 +165,18 @@ const Process: React.FC = () => {
                 initial={{ y: 30, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.15, duration: 0.6 }}
-                className="group"
+                transition={{ delay: index * 0.2, duration: 0.6 }}
+                className="flex gap-6"
               >
-                <div className="bg-card border border-border rounded-2xl p-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 cursor-pointer">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
-                        {step.icon}
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-lg font-bold mb-1 group-hover:text-primary transition-colors duration-300">
-                        {step.number}: {step.title}
-                      </h4>
-                      <p className="text-muted-foreground text-sm leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
-                        {step.description}
-                      </p>
-                    </div>
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                    {step.icon}
                   </div>
-                  
-                  {/* Hover indicator */}
-                  <div className="mt-4 h-1 bg-gradient-to-r from-primary/20 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                <div>
+                  <h4 className="text-xl font-bold mb-2">{step.number}</h4>
+                  <h5 className="text-lg font-semibold mb-2">{step.title}</h5>
+                  <p className="text-muted-foreground">{step.description}</p>
                 </div>
               </motion.div>
             ))}
