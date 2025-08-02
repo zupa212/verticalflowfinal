@@ -60,8 +60,8 @@ const ReelsSection = () => {
   }, [slides.length]);
 
   return (
-    <div className="flex flex-col bg-neutral-50">
-      <div className="flex items-center self-stretch bg-neutral-50 h-[600px] overflow-hidden">
+    <div className="flex flex-col bg-transparent grid-bg">
+      <div className="flex items-center self-stretch bg-transparent h-[600px] overflow-hidden">
         <div 
           ref={containerRef}
           className="flex items-center gap-8 relative w-full"
