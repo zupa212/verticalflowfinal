@@ -1,73 +1,106 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 const ReelsSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const slides = [
+    {
+      id: 1,
+      number: "01",
+      title: "Get Started Now",
+      subtitle: "",
+      iconSrc: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ksBwElDCQY/b0kx8nhl_expires_30_days.png"
+    },
+    {
+      id: 2,
+      number: "02",
+      title: "Organic Fertilizer",
+      subtitle: "",
+      iconSrc: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ksBwElDCQY/ufi7f1bl_expires_30_days.png"
+    },
+    {
+      id: 3,
+      number: "03",
+      title: "Technology Irrigation",
+      subtitle: "",
+      iconSrc: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ksBwElDCQY/jjqve23o_expires_30_days.png"
+    },
+    {
+      id: 4,
+      number: "04",
+      title: "Agricultural Monitoring",
+      subtitle: "",
+      iconSrc: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ksBwElDCQY/b0kx8nhl_expires_30_days.png"
+    }
+  ];
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const slideElements = containerRef.current.querySelectorAll('.slide-item');
+    const slideWidth = 400; // Width of each slide including margin
+    const totalWidth = slideWidth * slides.length;
+
+    // Create infinite loop animation
+    gsap.set(slideElements, { x: (i) => i * slideWidth });
+
+    const tl = gsap.timeline({ repeat: -1 });
+    
+    slideElements.forEach((slide, index) => {
+      tl.to(slide, {
+        x: `-=${totalWidth}`,
+        duration: slides.length * 3,
+        ease: "none",
+        modifiers: {
+          x: (x) => {
+            const xPos = parseFloat(x);
+            if (xPos <= -slideWidth) {
+              return `+=${totalWidth}`;
+            }
+            return x;
+          }
+        }
+      }, 0);
+    });
+
+    return () => {
+      tl.kill();
+    };
+  }, [slides.length]);
+
   return (
     <div className="flex flex-col bg-white">
-      <div className="flex flex-col items-start self-stretch bg-neutral-50 h-[1987px]">
-        <div className="flex items-start self-stretch mt-[524px] mb-4">
-          <div className="flex flex-1 flex-col items-start mr-3">
-            <div className="flex flex-col items-center relative">
-              <div className="bg-[#00000033] w-[372px] h-[498px] rounded-3xl">
+      <div className="flex items-center self-stretch bg-neutral-50 h-[600px] overflow-hidden">
+        <div 
+          ref={containerRef}
+          className="flex items-center gap-8 relative w-full"
+        >
+          {/* Create double set for seamless loop */}
+          {[...slides, ...slides].map((slide, index) => (
+            <div 
+              key={`${slide.id}-${index}`}
+              className="slide-item flex flex-col items-center gap-4 min-w-[372px]"
+            >
+              <div className="bg-[#00000033] w-[372px] h-[498px] rounded-3xl flex items-center justify-center relative">
+                {slide.iconSrc && (
+                  <img
+                    src={slide.iconSrc} 
+                    className="w-[52px] h-[52px] object-fill absolute top-4 right-4"
+                    alt="Icon"
+                  />
+                )}
+                <div className="text-center">
+                  <span className="text-[#22282B] text-[38px] font-bold block mb-2">
+                    {slide.number}
+                  </span>
+                  <span className="text-[#22282B] text-xl font-bold">
+                    {slide.title}
+                  </span>
+                </div>
               </div>
-              <span className="text-[#22282B] text-[38px] font-bold w-[225px] absolute top-0 right-[-147px]">
-                {"Get \nStarted Now"}
-              </span>
             </div>
-            <div className="flex flex-col items-end self-stretch mb-[103px]">
-              <img
-                src={"https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ksBwElDCQY/b0kx8nhl_expires_30_days.png"} 
-                className="w-[52px] h-[52px] object-fill"
-                alt="Icon"
-              />
-            </div>
-            <div className="self-stretch bg-[#00000033] h-[498px] ml-[294px] rounded-3xl">
-            </div>
-            <span className="text-[#22282B] text-xl font-bold mb-[52px] ml-[71px]">
-              {"Technology Irrigation"}
-            </span>
-            <img
-              src={"https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ksBwElDCQY/ufi7f1bl_expires_30_days.png"} 
-              className="w-14 h-14 ml-[138px] object-fill"
-              alt="Icon"
-            />
-            <img
-              src={"https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ksBwElDCQY/jjqve23o_expires_30_days.png"} 
-              className="w-14 h-14 ml-[218px] object-fill"
-              alt="Icon"
-            />
-          </div>
-          <div className="flex flex-col shrink-0 items-center mr-5 gap-4">
-            <div className="bg-[#00000033] w-[372px] h-[498px] rounded-3xl">
-            </div>
-            <div className="flex items-center">
-              <span className="text-[#22282B] text-xl font-bold mr-[148px]">
-                {"03"}
-              </span>
-              <span className="text-[#22282B] text-xl font-bold">
-                {"Technology Irrigation"}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-col shrink-0 items-center my-[60px] gap-4">
-            <div className="bg-[#00000033] w-[356px] h-[498px] rounded-3xl">
-            </div>
-            <div className="flex items-center">
-              <span className="text-[#22282B] text-xl font-bold mr-[125px]">
-                {"04"}
-              </span>
-              <span className="text-[#22282B] text-xl font-bold">
-                {"Agricultural Monitoring"}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center mb-[84px] ml-[294px]">
-          <span className="text-[#22282B] text-xl font-bold mr-[187px]">
-            {"02"}
-          </span>
-          <span className="text-[#22282B] text-xl font-bold">
-            {"Organic Fertilizer"}
-          </span>
+          ))}
         </div>
       </div>
     </div>
