@@ -60,7 +60,7 @@ const ReelsSection = () => {
   }, [slides.length]);
 
   return (
-    <div className="flex flex-col bg-white">
+    <div className="flex flex-col bg-neutral-50">
       <div className="flex items-center self-stretch bg-neutral-50 h-[600px] overflow-hidden">
         <div 
           ref={containerRef}
@@ -70,9 +70,9 @@ const ReelsSection = () => {
           {[...slides, ...slides].map((slide, index) => (
             <div 
               key={`${slide.id}-${index}`}
-              className="slide-item flex flex-col items-center gap-4 min-w-[372px]"
+              className="slide-item flex flex-col items-center gap-4 min-w-[372px] mx-4"
             >
-              <div className="bg-[#00000033] w-[372px] h-[498px] rounded-3xl flex items-center justify-center relative">
+              <div className="bg-neutral-50 w-[372px] h-[498px] rounded-3xl flex items-center justify-center relative border-2 border-gray-200">
                 {slide.iconSrc && (
                   <img
                     src={slide.iconSrc} 
