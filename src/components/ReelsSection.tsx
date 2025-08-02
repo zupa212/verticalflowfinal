@@ -38,34 +38,24 @@ const ReelsSection = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const slideElements = containerRef.current.querySelectorAll('.slide-item');
-    const slideWidth = 400; // Width of each slide including margin
-    const totalWidth = slideWidth * slides.length;
-
-    // Create infinite loop animation
-    gsap.set(slideElements, { x: (i) => i * slideWidth });
-
-    const tl = gsap.timeline({ repeat: -1 });
+    const container = containerRef.current;
+    const slideWidth = 400; // Width of each slide including gap
+    const totalSlides = slides.length;
     
-    slideElements.forEach((slide, index) => {
-      tl.to(slide, {
-        x: `-=${totalWidth}`,
-        duration: slides.length * 3,
-        ease: "none",
-        modifiers: {
-          x: (x) => {
-            const xPos = parseFloat(x);
-            if (xPos <= -slideWidth) {
-              return `+=${totalWidth}`;
-            }
-            return x;
-          }
-        }
-      }, 0);
+    // Set initial position
+    gsap.set(container, { x: 0 });
+    
+    // Create smooth infinite animation
+    const animation = gsap.to(container, {
+      x: -slideWidth * totalSlides,
+      duration: totalSlides * 4, // 4 seconds per slide
+      ease: "none",
+      repeat: -1,
+      repeatDelay: 0
     });
 
     return () => {
-      tl.kill();
+      animation.kill();
     };
   }, [slides.length]);
 
