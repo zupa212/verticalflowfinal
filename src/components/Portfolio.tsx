@@ -140,12 +140,13 @@ const Portfolio: React.FC = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.2, duration: 0.8 }}
               whileHover={{ scale: 1.02, y: -5 }}
-              className="group relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
+              className="group relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer border border-white/20 backdrop-blur-sm"
               style={{ aspectRatio: '4/5' }}
               onClick={() => handleProjectClick(project)}
             >
-              {/* Background Gradient */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-80`} />
+              {/* Glassmorphism Background */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-70`} />
+              <div className="absolute inset-0 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl" />
               
               {/* Project Image */}
               <div className="relative z-10 p-8 h-full flex flex-col">
@@ -155,18 +156,25 @@ const Portfolio: React.FC = () => {
                     transition={{ duration: 0.3 }}
                     className="relative"
                   >
-                    <LazyImage
-                      src={project.image}
-                      alt={`${project.title} - ${project.category} project by VerticalFlow Digital Agency Θεσσαλονίκη showcasing ${project.description.slice(0, 50)}...`}
-                      className="w-64 h-48 rounded-2xl shadow-2xl"
-                      width={256}
-                      height={192}
-                      priority={index < 2}
-                    />
-                    <div className="absolute inset-0 bg-white/10 rounded-2xl" />
+                    <div className="relative">
+                      <LazyImage
+                        src={project.image}
+                        alt={`${project.title} - ${project.category} project by VerticalFlow Digital Agency Θεσσαλονίκη showcasing ${project.description.slice(0, 50)}...`}
+                        className="w-64 h-48 rounded-2xl shadow-2xl border border-white/30"
+                        width={256}
+                        height={192}
+                        priority={index < 2}
+                      />
+                      {/* Glassmorphism overlay on image */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/20 rounded-2xl backdrop-blur-[1px]" />
+                      
+                      {/* Glass layers effect */}
+                      <div className="absolute inset-2 bg-white/5 rounded-xl border border-white/20" />
+                      <div className="absolute inset-4 bg-white/5 rounded-lg border border-white/10" />
+                    </div>
                     
-                    {/* Project Logo */}
-                    <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                    {/* Project Logo with glassmorphism */}
+                    <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white/40 shadow-2xl">
                       <LazyImage
                         src={project.logo}
                         alt={`${project.client} company logo - VerticalFlow client success story in ${project.category}`}
@@ -194,7 +202,7 @@ const Portfolio: React.FC = () => {
                     </div>
                     <motion.div
                       whileHover={{ scale: 1.2, rotate: 45 }}
-                      className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                      className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 shadow-lg"
                     >
                       <ExternalLink className="w-5 h-5 text-white" />
                     </motion.div>
@@ -246,9 +254,9 @@ const Portfolio: React.FC = () => {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full bg-white text-black font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 hover:shadow-lg transition-all duration-300"
+                    className="w-full bg-white/90 backdrop-blur-md text-black font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 hover:shadow-xl transition-all duration-300 border border-white/30"
                   >
-                    <span>View Live Project</span>
+                    <span>View Project</span>
                     <ExternalLink size={18} />
                   </motion.a>
                 </motion.div>
