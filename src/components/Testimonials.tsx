@@ -185,24 +185,24 @@ const Testimonials: React.FC = () => {
 
         {/* Testimonials Carousel */}
         <div className="relative">
-          {/* Navigation Arrows - Larger on mobile */}
+          {/* Navigation Arrows - Hidden on mobile, visible on desktop */}
           <button
             onClick={scrollPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-14 h-14 md:w-12 md:h-12 bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center justify-center hover:bg-background transition-all duration-300 shadow-lg"
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-background/80 backdrop-blur-sm border border-border rounded-full items-center justify-center hover:bg-background transition-all duration-300 shadow-lg"
             aria-label="Previous testimonials"
           >
-            <ChevronLeft className="w-6 h-6 md:w-5 md:h-5 text-foreground" />
+            <ChevronLeft className="w-5 h-5 text-foreground" />
           </button>
           
           <button
             onClick={scrollNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-14 h-14 md:w-12 md:h-12 bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center justify-center hover:bg-background transition-all duration-300 shadow-lg"
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-background/80 backdrop-blur-sm border border-border rounded-full items-center justify-center hover:bg-background transition-all duration-300 shadow-lg"
             aria-label="Next testimonials"
           >
-            <ChevronRight className="w-6 h-6 md:w-5 md:h-5 text-foreground" />
+            <ChevronRight className="w-5 h-5 text-foreground" />
           </button>
 
-          <div className="overflow-hidden mx-16 md:mx-14">
+          <div className="overflow-hidden mx-4 md:mx-14">
             <div 
               ref={cardsRef}
               className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
@@ -277,14 +277,30 @@ const Testimonials: React.FC = () => {
                  <div className="w-1 h-32 md:h-40 bg-foreground/80 rounded-full shadow-lg"></div>
                </div>
              )}
-           </React.Fragment>
-           ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+            </React.Fragment>
+            ))}
+             </div>
+           </div>
+
+           {/* Pagination Dots - Only visible on mobile */}
+           <div className="flex md:hidden justify-center mt-8 gap-2">
+             {testimonials.map((_, index) => (
+               <button
+                 key={index}
+                 onClick={() => scrollToIndex(index)}
+                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                   index === currentIndex 
+                     ? 'bg-foreground w-6' 
+                     : 'bg-muted-foreground/40 hover:bg-muted-foreground/60'
+                 }`}
+                 aria-label={`Go to testimonial ${index + 1}`}
+               />
+             ))}
+           </div>
+         </div>
+       </div>
+     </section>
+   );
+ };
 
 export default Testimonials;
