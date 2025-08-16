@@ -4,6 +4,7 @@ import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
 import ReelsSection from '@/components/ReelsSection';
 import Achievements from '@/components/Achievements';
+import BrandCarousel from '@/components/BrandCarousel';
 import ComparisonSection from '@/components/ComparisonSection';
 import Testimonials from '@/components/Testimonials';
 import Process from '@/components/Process';
@@ -36,6 +37,7 @@ const Index = () => {
       <main>
         <Hero />
         <ReelsSection />
+        <BrandCarousel />
         <Achievements />
         <Testimonials />
         <Process />
