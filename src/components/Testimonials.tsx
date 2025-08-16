@@ -77,7 +77,7 @@ const Testimonials: React.FC = () => {
 
   const scrollToIndex = (index: number) => {
     if (cardsRef.current) {
-      const cardWidth = window.innerWidth < 768 ? 176 + 32 : 320 + 32; // w-44 + gap or w-80 + gap
+      const cardWidth = window.innerWidth < 768 ? 288 + 32 : 320 + 32; // w-72 + gap or w-80 + gap
       cardsRef.current.scrollTo({
         left: index * cardWidth,
         behavior: 'smooth'
@@ -87,13 +87,13 @@ const Testimonials: React.FC = () => {
   };
 
   const scrollPrev = () => {
-    const cardsPerView = window.innerWidth < 768 ? 2 : 3;
+    const cardsPerView = window.innerWidth < 768 ? 1 : 3; // Single card on mobile
     const newIndex = Math.max(0, currentIndex - cardsPerView);
     scrollToIndex(newIndex);
   };
 
   const scrollNext = () => {
-    const cardsPerView = window.innerWidth < 768 ? 2 : 3;
+    const cardsPerView = window.innerWidth < 768 ? 1 : 3; // Single card on mobile
     const maxIndex = testimonials.length - cardsPerView;
     const newIndex = Math.min(maxIndex, currentIndex + cardsPerView);
     scrollToIndex(newIndex);
@@ -185,92 +185,100 @@ const Testimonials: React.FC = () => {
 
         {/* Testimonials Carousel */}
         <div className="relative">
-          {/* Navigation Arrows */}
+          {/* Navigation Arrows - Larger on mobile */}
           <button
             onClick={scrollPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center justify-center hover:bg-background transition-all duration-300 shadow-lg"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-14 h-14 md:w-12 md:h-12 bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center justify-center hover:bg-background transition-all duration-300 shadow-lg"
             aria-label="Previous testimonials"
           >
-            <ChevronLeft className="w-5 h-5 text-foreground" />
+            <ChevronLeft className="w-6 h-6 md:w-5 md:h-5 text-foreground" />
           </button>
           
           <button
             onClick={scrollNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center justify-center hover:bg-background transition-all duration-300 shadow-lg"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-14 h-14 md:w-12 md:h-12 bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center justify-center hover:bg-background transition-all duration-300 shadow-lg"
             aria-label="Next testimonials"
           >
-            <ChevronRight className="w-5 h-5 text-foreground" />
+            <ChevronRight className="w-6 h-6 md:w-5 md:h-5 text-foreground" />
           </button>
 
-          <div className="overflow-hidden mx-14">
+          <div className="overflow-hidden mx-16 md:mx-14">
             <div 
               ref={cardsRef}
-              className="flex gap-4 md:gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
+              className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={testimonial.id}
-                  className="group bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-6 md:p-8 hover-glow cursor-pointer transition-all duration-500 flex-shrink-0 w-44 md:w-80 snap-start"
+                <React.Fragment key={testimonial.id}>
+                  <motion.div
+                    className="group bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-6 md:p-8 hover-glow cursor-pointer transition-all duration-500 flex-shrink-0 w-72 md:w-80 snap-start"
                 whileHover={{ y: -10 }}
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.2 }}
               >
                 {/* Portfolio Media */}
-                <div className="relative mb-6 rounded-xl overflow-hidden">
-                  {testimonial.mediaType === "image" ? (
-                    <img 
-                      src={testimonial.media} 
-                      alt={`VerticalFlow portfolio work showcasing ${testimonial.role} for ${testimonial.author} - digital agency Θεσσαλονίκη success story`}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <iframe 
-                      src={testimonial.media}
-                      title={`VerticalFlow video showcasing ${testimonial.role} for ${testimonial.author}`}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                      allow="autoplay; fullscreen; picture-in-picture"
-                      allowFullScreen
-                    />
-                  )}
-                </div>
+                 <div className="relative mb-6 rounded-xl overflow-hidden">
+                   {testimonial.mediaType === "image" ? (
+                     <img 
+                       src={testimonial.media} 
+                       alt={`VerticalFlow portfolio work showcasing ${testimonial.role} for ${testimonial.author} - digital agency Θεσσαλονίκη success story`}
+                       className="w-full h-52 md:h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                     />
+                   ) : (
+                     <iframe 
+                       src={testimonial.media}
+                       title={`VerticalFlow video showcasing ${testimonial.role} for ${testimonial.author}`}
+                       className="w-full h-52 md:h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                       allow="autoplay; fullscreen; picture-in-picture"
+                       allowFullScreen
+                     />
+                   )}
+                 </div>
 
-              {/* Quote */}
-              <div className="relative mb-6">
-                <Quote className="absolute -top-2 -left-2 w-6 h-6 text-muted-foreground/30" />
-                <p className="text-sm text-muted-foreground leading-relaxed pl-4">
-                  {testimonial.quote}
-                </p>
-              </div>
+               {/* Quote */}
+               <div className="relative mb-6">
+                 <Quote className="absolute -top-2 -left-2 w-6 h-6 text-muted-foreground/30" />
+                 <p className="text-sm md:text-sm text-muted-foreground leading-relaxed pl-4">
+                   {testimonial.quote}
+                 </p>
+               </div>
 
-              {/* Author */}
-              <div className="flex items-center gap-3">
-                <img 
-                  src={testimonial.avatar} 
-                  alt={`${testimonial.author} profile photo - VerticalFlow client testimonial`}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <div>
-                  <h4 className="font-semibold text-foreground text-sm">{testimonial.author}</h4>
-                  <p className="text-xs text-muted-foreground">{testimonial.role}</p>
-                </div>
-              </div>
+               {/* Author */}
+               <div className="flex items-center gap-4">
+                 <img 
+                   src={testimonial.avatar} 
+                   alt={`${testimonial.author} profile photo - VerticalFlow client testimonial`}
+                   className="w-16 h-16 md:w-12 md:h-12 rounded-full object-cover border-2 border-border"
+                 />
+                 <div>
+                   <h4 className="font-semibold text-foreground text-base md:text-sm">{testimonial.author}</h4>
+                   <p className="text-sm md:text-xs text-muted-foreground">{testimonial.role}</p>
+                 </div>
+               </div>
 
-              {/* Thank you message */}
-              <div className="mt-4 pt-4 border-t border-border">
-                <p className="text-xs text-muted-foreground text-center">
-                  {index === 0 && "Thank you for the feedback"}
-                  {index === 1 && "We'll love to work with you 💚"}
-                  {index === 2 && "Thank you for the trust"}
-                  {index === 3 && "Amazing collaboration! 🚀"}
-                  {index === 4 && "Professional excellence delivered"}
-                  {index === 5 && "Your success is our mission ✨"}
-                </p>
-                <p className="text-xs text-muted-foreground/50 text-center mt-1">kree8</p>
-              </div>
-            </motion.div>
-          ))}
+               {/* Thank you message */}
+               <div className="mt-6 pt-4 border-t border-border">
+                 <p className="text-sm md:text-xs text-muted-foreground text-center">
+                   {index === 0 && "Thank you for the feedback"}
+                   {index === 1 && "We'll love to work with you 💚"}
+                   {index === 2 && "Thank you for the trust"}
+                   {index === 3 && "Amazing collaboration! 🚀"}
+                   {index === 4 && "Professional excellence delivered"}
+                   {index === 5 && "Your success is our mission ✨"}
+                 </p>
+                 <p className="text-sm md:text-xs text-muted-foreground/50 text-center mt-1">kree8</p>
+               </div>
+             </motion.div>
+             
+             {/* Heavy Black Divider between cards */}
+             {index < testimonials.length - 1 && (
+               <div className="flex-shrink-0 flex items-center justify-center w-8">
+                 <div className="w-1 h-32 md:h-40 bg-foreground/80 rounded-full shadow-lg"></div>
+               </div>
+             )}
+           </React.Fragment>
+           ))}
             </div>
           </div>
         </div>
