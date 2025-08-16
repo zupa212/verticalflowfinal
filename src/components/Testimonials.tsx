@@ -152,35 +152,37 @@ const Testimonials: React.FC = () => {
           </div>
         </div>
 
-        {/* Testimonials Grid */}
-        <div 
-          ref={cardsRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
-        >
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.id}
-              className={`group bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-8 hover-glow cursor-pointer transition-all duration-500 bg-gradient-to-br ${testimonial.gradient}`}
-              whileHover={{ y: -10 }}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2 }}
-            >
-              {/* Portfolio Image */}
-              <div className="relative mb-6 rounded-xl overflow-hidden">
-                <img 
-                  src={testimonial.image} 
-                  alt={`VerticalFlow portfolio work showcasing ${testimonial.role} for ${testimonial.author} - digital agency Θεσσαλονίκη success story`}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 flex items-center justify-center group-hover:bg-gradient-to-t group-hover:from-purple-500/10 group-hover:via-purple-400/5 group-hover:to-transparent transition-all duration-500">
+        {/* Testimonials Carousel */}
+        <div className="overflow-hidden">
+          <div 
+            ref={cardsRef}
+            className="flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={testimonial.id}
+                className="group bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-8 hover-glow cursor-pointer transition-all duration-500 flex-shrink-0 w-80 snap-start"
+                whileHover={{ y: -10 }}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2 }}
+              >
+                {/* Portfolio Image */}
+                <div className="relative mb-6 rounded-xl overflow-hidden">
                   <img 
-                    src="/lovable-uploads/4a66d574-d80e-4797-b3c6-69d5c46b7e9f.png" 
-                    alt="VerticalFlow logo overlay" 
-                    className="w-16 h-16 opacity-30 group-hover:opacity-50 transition-opacity duration-500"
+                    src={testimonial.image} 
+                    alt={`VerticalFlow portfolio work showcasing ${testimonial.role} for ${testimonial.author} - digital agency Θεσσαλονίκη success story`}
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
+                  <div className="absolute inset-0 flex items-center justify-center group-hover:bg-gradient-to-t group-hover:from-purple-500/10 group-hover:via-purple-400/5 group-hover:to-transparent transition-all duration-500">
+                    <img 
+                      src="/lovable-uploads/4a66d574-d80e-4797-b3c6-69d5c46b7e9f.png" 
+                      alt="VerticalFlow logo overlay" 
+                      className="w-16 h-16 opacity-30 group-hover:opacity-50 transition-opacity duration-500"
+                    />
+                  </div>
                 </div>
-              </div>
 
               {/* Quote */}
               <div className="relative mb-6">
@@ -217,6 +219,7 @@ const Testimonials: React.FC = () => {
               </div>
             </motion.div>
           ))}
+          </div>
         </div>
       </div>
     </section>
