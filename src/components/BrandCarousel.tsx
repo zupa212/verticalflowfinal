@@ -61,18 +61,6 @@ const BrandCarousel = () => {
   return (
     <section className="py-20 bg-background/50 overflow-hidden border-y border-border/20">
       <div className="container mx-auto px-6">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted/50 border border-border mb-6"
-          >
-            <span className="text-sm font-medium text-muted-foreground">Trusted by Leading Brands</span>
-          </motion.div>
-        </div>
-
         {/* Carousel Container */}
         <div className="relative">
           {/* Gradient Overlays */}
