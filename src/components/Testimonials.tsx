@@ -155,7 +155,7 @@ const Testimonials: React.FC = () => {
         {/* Testimonials Grid */}
         <div 
           ref={cardsRef}
-          className="grid grid-cols-1 gap-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
         >
           {testimonials.map((testimonial, index) => (
             <motion.div
