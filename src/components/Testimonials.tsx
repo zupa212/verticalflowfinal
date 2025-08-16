@@ -224,6 +224,14 @@ const Testimonials: React.FC = () => {
                       alt="VerticalFlow logo overlay" 
                       className="w-16 h-16 opacity-30 group-hover:opacity-50 transition-opacity duration-500"
                     />
+                    <svg 
+                      className="w-8 h-8 text-white/50 ml-2" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
                   </div>
                 </div>
 
