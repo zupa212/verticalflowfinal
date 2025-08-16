@@ -15,7 +15,8 @@ const Testimonials: React.FC = () => {
   const testimonials = [
     {
       id: 1,
-      image: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      media: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      mediaType: "image" as const,
       quote: "Functional design meets beauty. Work with Kree8 if you can. Their designs are always creative and aligned with our brand.",
       author: "Al Meetlong Recorder",
       role: "Landing Page Design",
@@ -24,7 +25,8 @@ const Testimonials: React.FC = () => {
     },
     {
       id: 2,
-      image: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      media: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png", 
+      mediaType: "image" as const,
       quote: "KREE8's graphic design quality is unmatched. Whether it's branding or marketing materials, their service keeps everything seamless and affordable",
       author: "Rohan Jhaveri",
       role: "Founder of 505 Coffee",
@@ -33,7 +35,8 @@ const Testimonials: React.FC = () => {
     },
     {
       id: 3,
-      image: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      media: "https://player.vimeo.com/video/example",
+      mediaType: "video" as const,
       quote: "We've been using KREE8 for months, and their designs always exceed expectations. Reliable, fast, and creative!",
       author: "Khushi Soni",
       role: "Founder of Sound Station",
@@ -42,7 +45,8 @@ const Testimonials: React.FC = () => {
     },
     {
       id: 4,
-      image: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      media: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      mediaType: "image" as const,
       quote: "Outstanding work! VerticalFlow transformed our brand identity with precision and creativity that exceeded all expectations.",
       author: "Maria Papadopoulos",
       role: "Creative Director",
@@ -51,7 +55,8 @@ const Testimonials: React.FC = () => {
     },
     {
       id: 5,
-      image: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      media: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      mediaType: "image" as const,
       quote: "Professional, innovative, and reliable. Their attention to detail and commitment to quality is unmatched in Thessaloniki.",
       author: "Dimitris Katsaros",
       role: "Marketing Manager",
@@ -60,7 +65,8 @@ const Testimonials: React.FC = () => {
     },
     {
       id: 6,
-      image: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      media: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      mediaType: "image" as const,
       quote: "The best investment we've made for our digital presence. VerticalFlow delivers results that speak for themselves.",
       author: "Elena Christou",
       role: "Business Owner",
@@ -211,22 +217,24 @@ const Testimonials: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.2 }}
               >
-                {/* Portfolio Image */}
+                {/* Portfolio Media */}
                 <div className="relative mb-6 rounded-xl overflow-hidden">
-                  <img 
-                    src={testimonial.image} 
-                    alt={`VerticalFlow portfolio work showcasing ${testimonial.role} for ${testimonial.author} - digital agency Θεσσαλονίκη success story`}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                  {testimonial.mediaType === "image" ? (
+                    <img 
+                      src={testimonial.media} 
+                      alt={`VerticalFlow portfolio work showcasing ${testimonial.role} for ${testimonial.author} - digital agency Θεσσαλονίκη success story`}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <iframe 
+                      src={testimonial.media}
+                      title={`VerticalFlow video showcasing ${testimonial.role} for ${testimonial.author}`}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      allowFullScreen
+                    />
+                  )}
                   <div className="absolute inset-0 flex items-center justify-center group-hover:bg-gradient-to-t group-hover:from-purple-500/10 group-hover:via-purple-400/5 group-hover:to-transparent transition-all duration-500">
-                    <svg 
-                      className="w-8 h-8 text-white/50" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
                   </div>
                 </div>
 
