@@ -47,7 +47,6 @@ const Index = () => {
         <GSAPScrollStack />
         
         <Portfolio />
-        <TechStackSection />
         <BlogSection />
         <BrandsSlider />
         <LevelUpCTA />
