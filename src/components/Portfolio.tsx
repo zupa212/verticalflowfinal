@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ExternalLink } from 'lucide-react';
 import LazyImage from '@/components/LazyImage';
 import { analytics } from '@/utils/analytics';
+import { useTranslation } from 'react-i18next';
 import portfolio1 from '@/assets/portfolio-1.jpg';
 import portfolio2 from '@/assets/portfolio-2.jpg';
 import portfolio3 from '@/assets/portfolio-3.jpg';
@@ -13,6 +14,7 @@ import portfolio4 from '@/assets/portfolio-4.jpg';
 gsap.registerPlugin(ScrollTrigger);
 
 const Portfolio: React.FC = () => {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -51,49 +53,49 @@ const Portfolio: React.FC = () => {
   const projects = [
     {
       id: 1,
-      title: "E-commerce Platform",
-      category: "Web Development",
+      title: t('portfolio.project1.title'),
+      category: t('portfolio.project1.category'),
       image: portfolio1,
       logo: portfolio1,
       description: "Μοντέρνη πλατφόρμα e-commerce με ολοκληρωμένο σύστημα πληρωμών και διαχείρισης παραγγελιών.",
       technologies: ["React", "Node.js", "MongoDB"],
-      client: "TechCorp Θεσσαλονίκη",
+      client: t('portfolio.project1.client'),
       url: "https://example.com",
       gradient: "from-green-400 to-blue-500"
     },
     {
       id: 2,
-      title: "Brand Identity Design",
-      category: "Design & Branding",
+      title: t('portfolio.project2.title'),
+      category: t('portfolio.project2.category'),
       image: portfolio2,
       logo: portfolio2,
       description: "Δημιουργική ταυτότητα για digital agency στη Θεσσαλονίκη με έμφαση στα reels και το social media.",
       technologies: ["Figma", "Illustrator", "After Effects"],
-      client: "Creative Studio",
+      client: t('portfolio.project2.client'),
       url: "https://example.com",
       gradient: "from-purple-400 to-pink-500"
     },
     {
       id: 3,
-      title: "Mobile App Development",
-      category: "App Development",
+      title: t('portfolio.project3.title'),
+      category: t('portfolio.project3.category'),
       image: portfolio3,
       logo: portfolio3,
       description: "Καινοτόμα εφαρμογή για τοπικές επιχειρήσεις με GPS integration και real-time notifications.",
       technologies: ["React Native", "Firebase", "Google Maps API"],
-      client: "Local Business Hub",
+      client: t('portfolio.project3.client'),
       url: "https://example.com",
       gradient: "from-orange-400 to-red-500"
     },
     {
       id: 4,
-      title: "Digital Marketing Campaign",
-      category: "Marketing & Reels",
+      title: t('portfolio.project4.title'),
+      category: t('portfolio.project4.category'),
       image: portfolio4,
       logo: portfolio4,
       description: "Στρατηγική καμπάνια social media με viral reels που αύξησε την επισκεψιμότητα κατά 300%.",
       technologies: ["Meta Ads", "Google Ads", "Analytics"],
-      client: "Fashion Brand Θεσσαλονίκη",
+      client: t('portfolio.project4.client'),
       url: "https://example.com",
       gradient: "from-gray-400 to-gray-600"
     }
@@ -127,8 +129,8 @@ const Portfolio: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <p className="text-muted-foreground mb-4">Still confused about us</p>
-          <h2 className="text-4xl lg:text-5xl font-black">See our work</h2>
+          <p className="text-muted-foreground mb-4">{t('portfolio.subtitle')}</p>
+          <h2 className="text-4xl lg:text-5xl font-black">{t('portfolio.title')}</h2>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -256,7 +258,7 @@ const Portfolio: React.FC = () => {
                     whileTap={{ scale: 0.95 }}
                     className="w-full bg-white/90 backdrop-blur-md text-black font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 hover:shadow-xl transition-all duration-300 border border-white/30"
                   >
-                    <span>View Project</span>
+                    <span>{t('portfolio.view.project')}</span>
                     <ExternalLink size={18} />
                   </motion.a>
                 </motion.div>

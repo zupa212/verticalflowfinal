@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Star, ArrowDown } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Process: React.FC = () => {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -38,21 +40,21 @@ const Process: React.FC = () => {
 
   const steps = [
     {
-      number: "Step 1",
-      title: "Choose Your Plan",
-      description: "Select the best plan that suits your requirement",
+      number: t('process.step1.number'),
+      title: t('process.step1.title'),
+      description: t('process.step1.description'),
       icon: <Star className="w-6 h-6" />
     },
     {
-      number: "Step 2", 
-      title: "Submit Your Request",
-      description: "Use our private design portal to submit your design needs.",
+      number: t('process.step2.number'), 
+      title: t('process.step2.title'),
+      description: t('process.step2.description'),
       icon: <ArrowDown className="w-6 h-6" />
     },
     {
-      number: "Step 3",
-      title: "We Deliver :)",
-      description: "Our talented team delivers in 2-3 days",
+      number: t('process.step3.number'),
+      title: t('process.step3.title'),
+      description: t('process.step3.description'),
       icon: <Star className="w-6 h-6" />
     }
   ];
@@ -86,14 +88,14 @@ const Process: React.FC = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl font-black mb-6">
-            How simple it can be to get
+            {t('process.title')}
             <br />
-            your Projects Done
+            {t('process.title.line2')}
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Just step away from those traditional old methods of
+            {t('process.subtitle.line1')}
             <br />
-            hiring plus managing and see for yourself
+            {t('process.subtitle.line2')}
           </p>
         </motion.div>
 
@@ -116,7 +118,7 @@ const Process: React.FC = () => {
               >
                 <div className="flex items-center gap-2 bg-background border border-border rounded-full px-4 py-2 shadow-lg">
                   <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                  <span className="text-sm font-semibold">Most popular</span>
+                  <span className="text-sm font-semibold">{t('process.badge.popular')}</span>
                 </div>
               </motion.div>
 
@@ -139,13 +141,13 @@ const Process: React.FC = () => {
                 </motion.div>
 
                 <h3 className="text-2xl font-bold mb-4 text-white">
-                  You have done
+                  {t('process.card.title')}
                   <br />
-                  your part
+                  {t('process.card.subtitle')}
                 </h3>
 
                 <div className="mt-8">
-                  <span className="text-white/80">It's our turn now</span>
+                  <span className="text-white/80">{t('process.card.footer')}</span>
                 </div>
               </motion.div>
             </div>

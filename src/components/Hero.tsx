@@ -5,8 +5,10 @@ import { Clock, FileText, Infinity } from 'lucide-react';
 import { gsap } from 'gsap';
 import TypewriterText from '@/components/TypewriterText';
 import { LottieAnimation } from '@/components/LottieAnimation';
+import { useTranslation } from 'react-i18next';
 
 const Hero: React.FC = () => {
+  const { t } = useTranslation();
   const heroRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -57,18 +59,18 @@ const Hero: React.FC = () => {
         >
           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
           <span className="text-sm font-medium">
-            Available for New Projects
+            {t('hero.badge')}
           </span>
         </motion.div>
 
         {/* Main Headline */}
         <div ref={headlineRef} className="mb-8">
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight mb-4 text-foreground hover-glow cursor-default">
-            A DEDICATED DESIGN TEAM
+            {t('hero.title.main')}
           </h1>
           <TypewriterText 
-            staticText="FOR" 
-            phrases={["STARTUPS", "CREATORS", "BRANDS", "DREAMERS", "FOUNDERS", "INNOVATORS"]}
+            staticText={t('hero.title.for')} 
+            phrases={t('hero.title.phrases', { returnObjects: true }) as string[]}
             className="justify-center"
           />
         </div>
@@ -78,7 +80,7 @@ const Hero: React.FC = () => {
           ref={subtitleRef}
           className="text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto mb-12"
         >
-          We don't just design, we solve your brand's biggest challenges
+          {t('hero.description')}
         </p>
 
         {/* CTA Button */}
@@ -90,7 +92,7 @@ const Hero: React.FC = () => {
             size="lg" 
             className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-4 text-base font-semibold shadow-lg button-glow"
           >
-            View Plans and Pricing
+            {t('hero.cta.main')}
           </Button>
         </div>
 
@@ -103,21 +105,21 @@ const Hero: React.FC = () => {
             <div className="w-12 h-12 bg-muted/50 rounded-lg flex items-center justify-center group-hover:bg-muted/70 transition-all duration-300">
               <Clock className="w-6 h-6 text-foreground group-hover:scale-110 transition-transform duration-300" />
             </div>
-            <span className="text-sm font-medium text-foreground text-center group-hover:text-foreground/80 transition-colors duration-300">48 Hours Delivery</span>
+            <span className="text-sm font-medium text-foreground text-center group-hover:text-foreground/80 transition-colors duration-300">{t('hero.features.delivery')}</span>
           </div>
           
           <div className="flex flex-col items-center gap-3 hover-glow cursor-pointer group">
             <div className="w-12 h-12 bg-muted/50 rounded-lg flex items-center justify-center group-hover:bg-muted/70 transition-all duration-300">
               <FileText className="w-6 h-6 text-foreground group-hover:scale-110 transition-transform duration-300" />
             </div>
-            <span className="text-sm font-medium text-foreground text-center group-hover:text-foreground/80 transition-colors duration-300">Access to Private Design Portal</span>
+            <span className="text-sm font-medium text-foreground text-center group-hover:text-foreground/80 transition-colors duration-300">{t('hero.features.portal')}</span>
           </div>
           
           <div className="flex flex-col items-center gap-3 hover-glow cursor-pointer group">
             <div className="w-12 h-12 bg-muted/50 rounded-lg flex items-center justify-center group-hover:bg-muted/70 transition-all duration-300">
               <Infinity className="w-6 h-6 text-foreground group-hover:scale-110 transition-transform duration-300" />
             </div>
-            <span className="text-sm font-medium text-foreground text-center group-hover:text-foreground/80 transition-colors duration-300">Unlimited Design Requests</span>
+            <span className="text-sm font-medium text-foreground text-center group-hover:text-foreground/80 transition-colors duration-300">{t('hero.features.unlimited')}</span>
           </div>
         </div>
       </div>

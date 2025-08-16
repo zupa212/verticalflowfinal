@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Play } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Achievements: React.FC = () => {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
@@ -16,25 +18,25 @@ const Achievements: React.FC = () => {
   const achievements = [
     {
       id: 1,
-      number: "95+",
-      title: "Brands Served",
-      description: "Helping businesses across various industries achieve their goals",
+      number: t('achievements.brands.number'),
+      title: t('achievements.brands.title'),
+      description: t('achievements.brands.description'),
       icon: "🏢",
       color: "from-blue-500/20 to-purple-500/20"
     },
     {
       id: 2,
-      number: "8",
-      title: "Years of Experience",
-      description: "Bringing seasoned expertise to every project",
+      number: t('achievements.experience.number'),
+      title: t('achievements.experience.title'),
+      description: t('achievements.experience.description'),
       icon: "⏰",
       color: "from-green-500/20 to-blue-500/20"
     },
     {
       id: 3,
-      number: "$100,000+",
-      title: "Saved for Brands",
-      description: "So they can reinvest where it matters the most",
+      number: t('achievements.savings.number'),
+      title: t('achievements.savings.title'),
+      description: t('achievements.savings.description'),
       icon: "💰",
       color: "from-yellow-500/20 to-green-500/20"
     }
@@ -118,7 +120,7 @@ const Achievements: React.FC = () => {
             className="flex items-center gap-2 bg-foreground text-background px-4 py-2 rounded-full text-sm hover:bg-foreground/90 transition-all duration-300 button-glow group"
           >
             <Play className="w-4 h-4 group-hover:scale-110 transition-transform" />
-            and they say what they see!
+            {t('achievements.video.button')}
           </button>
         </motion.div>
 
@@ -127,11 +129,11 @@ const Achievements: React.FC = () => {
           ref={titleRef}
           className="text-4xl sm:text-5xl lg:text-6xl font-black text-center mb-6 text-foreground"
         >
-          Our Achievements
+          {t('achievements.title')}
         </h2>
 
         <p className="text-lg text-muted-foreground text-center max-w-2xl mx-auto mb-20">
-          Curious about what we've accomplished? Let our track record speak for itself.
+          {t('achievements.subtitle')}
         </p>
 
         {/* Achievement Cards */}

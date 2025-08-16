@@ -5,7 +5,6 @@ import Hero from '@/components/Hero';
 import ReelsSection from '@/components/ReelsSection';
 import Achievements from '@/components/Achievements';
 import BrandCarousel from '@/components/BrandCarousel';
-import GSAPScrollStack from '@/components/GSAPScrollStack';
 import ComparisonSection from '@/components/ComparisonSection';
 import Testimonials from '@/components/Testimonials';
 import Process from '@/components/Process';
@@ -42,9 +41,6 @@ const Index = () => {
         <Achievements />
         <Testimonials />
         <Process />
-        
-        {/* GSAP ScrollStack Services Section */}
-        <GSAPScrollStack />
         
         <Portfolio />
         <BlogSection />
