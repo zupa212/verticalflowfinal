@@ -234,8 +234,6 @@ const Testimonials: React.FC = () => {
                       allowFullScreen
                     />
                   )}
-                  <div className="absolute inset-0 flex items-center justify-center group-hover:bg-gradient-to-t group-hover:from-purple-500/10 group-hover:via-purple-400/5 group-hover:to-transparent transition-all duration-500">
-                  </div>
                 </div>
 
               {/* Quote */}
