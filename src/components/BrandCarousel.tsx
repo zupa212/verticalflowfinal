@@ -59,7 +59,15 @@ const BrandCarousel = () => {
   const duplicatedBrands = [...brands, ...brands];
 
   return (
-    <section className="py-8 md:py-12 bg-background/50 overflow-hidden border-y border-border/20">
+    <section className="py-8 md:py-12 bg-background/50 overflow-hidden relative">
+      {/* Top Divider */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/30 to-transparent">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/60 to-transparent opacity-50"></div>
+      </div>
+      {/* Bottom Divider */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/30 to-transparent">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/60 to-transparent opacity-50"></div>
+      </div>
       <div className="container mx-auto px-6">
         {/* Carousel Container */}
         <div className="relative">
