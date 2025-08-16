@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Quote } from 'lucide-react';
+import { Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,6 +10,7 @@ const Testimonials: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const testimonials = [
     {
@@ -67,6 +68,30 @@ const Testimonials: React.FC = () => {
       gradient: "from-pink-500/5 to-pink-900/10"
     }
   ];
+
+  const scrollToIndex = (index: number) => {
+    if (cardsRef.current) {
+      const cardWidth = window.innerWidth < 768 ? 176 + 32 : 320 + 32; // w-44 + gap or w-80 + gap
+      cardsRef.current.scrollTo({
+        left: index * cardWidth,
+        behavior: 'smooth'
+      });
+      setCurrentIndex(index);
+    }
+  };
+
+  const scrollPrev = () => {
+    const cardsPerView = window.innerWidth < 768 ? 2 : 3;
+    const newIndex = Math.max(0, currentIndex - cardsPerView);
+    scrollToIndex(newIndex);
+  };
+
+  const scrollNext = () => {
+    const cardsPerView = window.innerWidth < 768 ? 2 : 3;
+    const maxIndex = testimonials.length - cardsPerView;
+    const newIndex = Math.min(maxIndex, currentIndex + cardsPerView);
+    scrollToIndex(newIndex);
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -153,16 +178,34 @@ const Testimonials: React.FC = () => {
         </div>
 
         {/* Testimonials Carousel */}
-        <div className="overflow-hidden">
-          <div 
-            ref={cardsRef}
-            className="flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        <div className="relative">
+          {/* Navigation Arrows */}
+          <button
+            onClick={scrollPrev}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center justify-center hover:bg-background transition-all duration-300 shadow-lg"
+            aria-label="Previous testimonials"
           >
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.id}
-                className="group bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-8 hover-glow cursor-pointer transition-all duration-500 flex-shrink-0 w-80 snap-start"
+            <ChevronLeft className="w-5 h-5 text-foreground" />
+          </button>
+          
+          <button
+            onClick={scrollNext}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center justify-center hover:bg-background transition-all duration-300 shadow-lg"
+            aria-label="Next testimonials"
+          >
+            <ChevronRight className="w-5 h-5 text-foreground" />
+          </button>
+
+          <div className="overflow-hidden mx-14">
+            <div 
+              ref={cardsRef}
+              className="flex gap-4 md:gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {testimonials.map((testimonial, index) => (
+                <motion.div
+                  key={testimonial.id}
+                  className="group bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-6 md:p-8 hover-glow cursor-pointer transition-all duration-500 flex-shrink-0 w-44 md:w-80 snap-start"
                 whileHover={{ y: -10 }}
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -219,6 +262,7 @@ const Testimonials: React.FC = () => {
               </div>
             </motion.div>
           ))}
+            </div>
           </div>
         </div>
       </div>
