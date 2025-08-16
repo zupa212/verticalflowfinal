@@ -11,6 +11,7 @@ const Testimonials: React.FC = () => {
   const cardsRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   const testimonials = [
     {
@@ -99,6 +100,21 @@ const Testimonials: React.FC = () => {
     scrollToIndex(newIndex);
   };
 
+  // Auto-slide functionality for desktop only
+  useEffect(() => {
+    const isDesktop = window.innerWidth >= 768;
+    if (!isDesktop || isHovered) return;
+
+    const interval = setInterval(() => {
+      const cardsPerView = 3;
+      const maxIndex = testimonials.length - cardsPerView;
+      const nextIndex = currentIndex >= maxIndex ? 0 : currentIndex + cardsPerView;
+      scrollToIndex(nextIndex);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [currentIndex, isHovered, testimonials.length]);
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Title animation
@@ -185,100 +201,77 @@ const Testimonials: React.FC = () => {
 
         {/* Testimonials Carousel */}
         <div className="relative">
-          {/* Navigation Arrows - Hidden on mobile, visible on desktop */}
-          <button
-            onClick={scrollPrev}
-            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-background/80 backdrop-blur-sm border border-border rounded-full items-center justify-center hover:bg-background transition-all duration-300 shadow-lg"
-            aria-label="Previous testimonials"
-          >
-            <ChevronLeft className="w-5 h-5 text-foreground" />
-          </button>
-          
-          <button
-            onClick={scrollNext}
-            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-background/80 backdrop-blur-sm border border-border rounded-full items-center justify-center hover:bg-background transition-all duration-300 shadow-lg"
-            aria-label="Next testimonials"
-          >
-            <ChevronRight className="w-5 h-5 text-foreground" />
-          </button>
-
-          <div className="overflow-hidden mx-4 md:mx-14">
+          <div className="overflow-hidden mx-4 md:mx-0">
             <div 
               ref={cardsRef}
-              className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
+              className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4 md:grid md:grid-cols-3 md:overflow-visible"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
             >
               {testimonials.map((testimonial, index) => (
-                <React.Fragment key={testimonial.id}>
-                  <motion.div
-                    className="group bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-6 md:p-8 hover-glow cursor-pointer transition-all duration-500 flex-shrink-0 w-72 md:w-80 snap-start"
-                whileHover={{ y: -10 }}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.2 }}
-              >
-                {/* Portfolio Media */}
-                 <div className="relative mb-6 rounded-xl overflow-hidden">
-                   {testimonial.mediaType === "image" ? (
-                     <img 
-                       src={testimonial.media} 
-                       alt={`VerticalFlow portfolio work showcasing ${testimonial.role} for ${testimonial.author} - digital agency Θεσσαλονίκη success story`}
-                       className="w-full h-52 md:h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                     />
-                   ) : (
-                     <iframe 
-                       src={testimonial.media}
-                       title={`VerticalFlow video showcasing ${testimonial.role} for ${testimonial.author}`}
-                       className="w-full h-52 md:h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                       allow="autoplay; fullscreen; picture-in-picture"
-                       allowFullScreen
-                     />
-                   )}
-                 </div>
+                <motion.div
+                  key={testimonial.id}
+                  className="group bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-6 md:p-6 hover-glow cursor-pointer transition-all duration-500 flex-shrink-0 w-72 md:w-auto snap-start"
+                  whileHover={{ y: -10 }}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.2 }}
+                >
+                  {/* Portfolio Media */}
+                  <div className="relative mb-6 rounded-xl overflow-hidden">
+                    {testimonial.mediaType === "image" ? (
+                      <img 
+                        src={testimonial.media} 
+                        alt={`VerticalFlow portfolio work showcasing ${testimonial.role} for ${testimonial.author} - digital agency Θεσσαλονίκη success story`}
+                        className="w-full h-52 md:h-40 object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <iframe 
+                        src={testimonial.media}
+                        title={`VerticalFlow video showcasing ${testimonial.role} for ${testimonial.author}`}
+                        className="w-full h-52 md:h-40 object-cover group-hover:scale-105 transition-transform duration-500"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                      />
+                    )}
+                  </div>
 
-               {/* Quote */}
-               <div className="relative mb-6">
-                 <Quote className="absolute -top-2 -left-2 w-6 h-6 text-muted-foreground/30" />
-                 <p className="text-sm md:text-sm text-muted-foreground leading-relaxed pl-4">
-                   {testimonial.quote}
-                 </p>
-               </div>
+                  {/* Quote */}
+                  <div className="relative mb-6">
+                    <Quote className="absolute -top-2 -left-2 w-6 h-6 text-muted-foreground/30" />
+                    <p className="text-sm md:text-sm text-muted-foreground leading-relaxed pl-4">
+                      {testimonial.quote}
+                    </p>
+                  </div>
 
-               {/* Author */}
-               <div className="flex items-center gap-4">
-                 <img 
-                   src={testimonial.avatar} 
-                   alt={`${testimonial.author} profile photo - VerticalFlow client testimonial`}
-                   className="w-16 h-16 md:w-12 md:h-12 rounded-full object-cover border-2 border-border"
-                 />
-                 <div>
-                   <h4 className="font-semibold text-foreground text-base md:text-sm">{testimonial.author}</h4>
-                   <p className="text-sm md:text-xs text-muted-foreground">{testimonial.role}</p>
-                 </div>
-               </div>
+                  {/* Author */}
+                  <div className="flex items-center gap-4">
+                    <img 
+                      src={testimonial.avatar} 
+                      alt={`${testimonial.author} profile photo - VerticalFlow client testimonial`}
+                      className="w-16 h-16 md:w-10 md:h-10 rounded-full object-cover border-2 border-border"
+                    />
+                    <div>
+                      <h4 className="font-semibold text-foreground text-base md:text-sm">{testimonial.author}</h4>
+                      <p className="text-sm md:text-xs text-muted-foreground">{testimonial.role}</p>
+                    </div>
+                  </div>
 
-               {/* Thank you message */}
-               <div className="mt-6 pt-4 border-t border-border">
-                 <p className="text-sm md:text-xs text-muted-foreground text-center">
-                   {index === 0 && "Thank you for the feedback"}
-                   {index === 1 && "We'll love to work with you 💚"}
-                   {index === 2 && "Thank you for the trust"}
-                   {index === 3 && "Amazing collaboration! 🚀"}
-                   {index === 4 && "Professional excellence delivered"}
-                   {index === 5 && "Your success is our mission ✨"}
-                 </p>
-                 <p className="text-sm md:text-xs text-muted-foreground/50 text-center mt-1">kree8</p>
-               </div>
-             </motion.div>
-             
-             {/* Heavy Black Divider between cards */}
-             {index < testimonials.length - 1 && (
-               <div className="flex-shrink-0 flex items-center justify-center w-8">
-                 <div className="w-1 h-32 md:h-40 bg-foreground/80 rounded-full shadow-lg"></div>
-               </div>
-             )}
-            </React.Fragment>
-            ))}
+                  {/* Thank you message */}
+                  <div className="mt-6 pt-4 border-t border-border">
+                    <p className="text-sm md:text-xs text-muted-foreground text-center">
+                      {index === 0 && "Thank you for the feedback"}
+                      {index === 1 && "We'll love to work with you 💚"}
+                      {index === 2 && "Thank you for the trust"}
+                      {index === 3 && "Amazing collaboration! 🚀"}
+                      {index === 4 && "Professional excellence delivered"}
+                      {index === 5 && "Your success is our mission ✨"}
+                    </p>
+                    <p className="text-sm md:text-xs text-muted-foreground/50 text-center mt-1">kree8</p>
+                  </div>
+                </motion.div>
+              ))}
              </div>
            </div>
 
