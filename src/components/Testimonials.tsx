@@ -18,7 +18,8 @@ const Testimonials: React.FC = () => {
       quote: "Functional design meets beauty. Work with Kree8 if you can. Their designs are always creative and aligned with our brand.",
       author: "Al Meetlong Recorder",
       role: "Landing Page Design",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face"
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
+      gradient: "from-black/5 to-gray-900/10"
     },
     {
       id: 2,
@@ -26,7 +27,8 @@ const Testimonials: React.FC = () => {
       quote: "KREE8's graphic design quality is unmatched. Whether it's branding or marketing materials, their service keeps everything seamless and affordable",
       author: "Rohan Jhaveri",
       role: "Founder of 505 Coffee",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face"
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face",
+      gradient: "from-blue-500/5 to-blue-900/10"
     },
     {
       id: 3,
@@ -34,7 +36,35 @@ const Testimonials: React.FC = () => {
       quote: "We've been using KREE8 for months, and their designs always exceed expectations. Reliable, fast, and creative!",
       author: "Khushi Soni",
       role: "Founder of Sound Station",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b5c5?w=40&h=40&fit=crop&crop=face"
+      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b5c5?w=40&h=40&fit=crop&crop=face",
+      gradient: "from-purple-500/5 to-purple-900/10"
+    },
+    {
+      id: 4,
+      image: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      quote: "Outstanding work! VerticalFlow transformed our brand identity with precision and creativity that exceeded all expectations.",
+      author: "Maria Papadopoulos",
+      role: "Creative Director",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face",
+      gradient: "from-green-500/5 to-green-900/10"
+    },
+    {
+      id: 5,
+      image: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      quote: "Professional, innovative, and reliable. Their attention to detail and commitment to quality is unmatched in Thessaloniki.",
+      author: "Dimitris Katsaros",
+      role: "Marketing Manager",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face",
+      gradient: "from-orange-500/5 to-orange-900/10"
+    },
+    {
+      id: 6,
+      image: "/lovable-uploads/fdf9d875-a492-4bf3-9c9c-04b6f6528c1c.png",
+      quote: "The best investment we've made for our digital presence. VerticalFlow delivers results that speak for themselves.",
+      author: "Elena Christou",
+      role: "Business Owner",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face",
+      gradient: "from-pink-500/5 to-pink-900/10"
     }
   ];
 
@@ -125,12 +155,12 @@ const Testimonials: React.FC = () => {
         {/* Testimonials Grid */}
         <div 
           ref={cardsRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.id}
-              className="group bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-8 hover-glow cursor-pointer transition-all duration-500"
+              className={`group bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-8 hover-glow cursor-pointer transition-all duration-500 bg-gradient-to-br ${testimonial.gradient}`}
               whileHover={{ y: -10 }}
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -179,6 +209,9 @@ const Testimonials: React.FC = () => {
                   {index === 0 && "Thank you for the feedback"}
                   {index === 1 && "We'll love to work with you 💚"}
                   {index === 2 && "Thank you for the trust"}
+                  {index === 3 && "Amazing collaboration! 🚀"}
+                  {index === 4 && "Professional excellence delivered"}
+                  {index === 5 && "Your success is our mission ✨"}
                 </p>
                 <p className="text-xs text-muted-foreground/50 text-center mt-1">kree8</p>
               </div>
