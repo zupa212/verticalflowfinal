@@ -12,7 +12,12 @@ import {
   Circle,
   TrendingUp,
   Shield,
-  Cpu
+  Cpu,
+  Github,
+  ExternalLink,
+  Star,
+  Users,
+  Clock
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -26,6 +31,14 @@ interface Technology {
   performance: number;
   description: string;
   color: string;
+  details: {
+    features: string[];
+    github?: string;
+    documentation?: string;
+    lastUpdate: string;
+    teamRating: number;
+    projects: number;
+  };
 }
 
 const technologies: Technology[] = [
@@ -37,7 +50,15 @@ const technologies: Technology[] = [
     status: 'active',
     performance: 98,
     description: 'Modern React with concurrent features for blazing-fast UIs',
-    color: 'from-blue-500 to-cyan-500'
+    color: 'from-blue-500 to-cyan-500',
+    details: {
+      features: ['Concurrent Rendering', 'Automatic Batching', 'Server Components', 'Suspense'],
+      github: 'facebook/react',
+      documentation: 'react.dev',
+      lastUpdate: '2 days ago',
+      teamRating: 5,
+      projects: 45
+    }
   },
   {
     name: 'TypeScript',
@@ -47,7 +68,15 @@ const technologies: Technology[] = [
     status: 'active',
     performance: 96,
     description: 'Type-safe development for bulletproof applications',
-    color: 'from-blue-600 to-indigo-600'
+    color: 'from-blue-600 to-indigo-600',
+    details: {
+      features: ['Static Typing', 'IntelliSense', 'Refactoring', 'Error Prevention'],
+      github: 'microsoft/TypeScript',
+      documentation: 'typescriptlang.org',
+      lastUpdate: '1 week ago',
+      teamRating: 5,
+      projects: 42
+    }
   },
   {
     name: 'GSAP',
@@ -57,7 +86,15 @@ const technologies: Technology[] = [
     status: 'active',
     performance: 99,
     description: 'Professional animations that captivate and engage users',
-    color: 'from-green-500 to-emerald-500'
+    color: 'from-green-500 to-emerald-500',
+    details: {
+      features: ['Timeline Control', 'Scroll Triggers', 'Morphing', '60fps Performance'],
+      github: 'greensock/GSAP',
+      documentation: 'greensock.com/docs',
+      lastUpdate: '3 days ago',
+      teamRating: 5,
+      projects: 38
+    }
   },
   {
     name: 'Framer Motion',
@@ -67,7 +104,15 @@ const technologies: Technology[] = [
     status: 'active',
     performance: 97,
     description: 'Smooth React animations with gesture support',
-    color: 'from-purple-500 to-pink-500'
+    color: 'from-purple-500 to-pink-500',
+    details: {
+      features: ['Layout Animations', 'Gesture Recognition', 'Drag & Drop', 'Variants'],
+      github: 'framer/motion',
+      documentation: 'framer.com/motion',
+      lastUpdate: '5 days ago',
+      teamRating: 5,
+      projects: 35
+    }
   },
   {
     name: 'Tailwind CSS',
@@ -77,7 +122,15 @@ const technologies: Technology[] = [
     status: 'active',
     performance: 98,
     description: 'Utility-first CSS for rapid, responsive design',
-    color: 'from-teal-500 to-cyan-500'
+    color: 'from-teal-500 to-cyan-500',
+    details: {
+      features: ['Utility Classes', 'JIT Mode', 'Dark Mode', 'Custom Variants'],
+      github: 'tailwindlabs/tailwindcss',
+      documentation: 'tailwindcss.com',
+      lastUpdate: '1 week ago',
+      teamRating: 5,
+      projects: 48
+    }
   },
   {
     name: 'Radix UI',
@@ -87,7 +140,15 @@ const technologies: Technology[] = [
     status: 'active',
     performance: 99,
     description: 'Accessible, unstyled UI primitives for premium experiences',
-    color: 'from-orange-500 to-red-500'
+    color: 'from-orange-500 to-red-500',
+    details: {
+      features: ['Accessibility', 'Keyboard Navigation', 'Focus Management', 'Unstyled'],
+      github: 'radix-ui/primitives',
+      documentation: 'radix-ui.com',
+      lastUpdate: '4 days ago',
+      teamRating: 5,
+      projects: 40
+    }
   },
   {
     name: 'TanStack Query',
@@ -97,7 +158,15 @@ const technologies: Technology[] = [
     status: 'updating',
     performance: 95,
     description: 'Powerful data synchronization for real-time applications',
-    color: 'from-violet-500 to-purple-500'
+    color: 'from-violet-500 to-purple-500',
+    details: {
+      features: ['Smart Caching', 'Background Updates', 'Optimistic Updates', 'Offline Support'],
+      github: 'TanStack/query',
+      documentation: 'tanstack.com/query',
+      lastUpdate: '2 days ago',
+      teamRating: 4,
+      projects: 32
+    }
   },
   {
     name: 'Vite',
@@ -107,7 +176,15 @@ const technologies: Technology[] = [
     status: 'optimizing',
     performance: 97,
     description: 'Lightning-fast build tool for modern web development',
-    color: 'from-yellow-500 to-orange-500'
+    color: 'from-yellow-500 to-orange-500',
+    details: {
+      features: ['Hot Module Replacement', 'Tree Shaking', 'Code Splitting', 'Fast Builds'],
+      github: 'vitejs/vite',
+      documentation: 'vitejs.dev',
+      lastUpdate: '1 day ago',
+      teamRating: 5,
+      projects: 45
+    }
   },
   {
     name: 'Supabase',
@@ -117,7 +194,15 @@ const technologies: Technology[] = [
     status: 'active',
     performance: 98,
     description: 'Open-source Firebase alternative with real-time capabilities',
-    color: 'from-green-600 to-teal-600'
+    color: 'from-green-600 to-teal-600',
+    details: {
+      features: ['Real-time Subscriptions', 'Row Level Security', 'Edge Functions', 'Storage'],
+      github: 'supabase/supabase',
+      documentation: 'supabase.com/docs',
+      lastUpdate: '1 day ago',
+      teamRating: 5,
+      projects: 28
+    }
   }
 ];
 
@@ -371,11 +456,86 @@ const TechStackSection = () => {
                 </div>
 
                 {/* Description */}
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed group-hover:opacity-0 transition-opacity duration-300">
                   {tech.description}
                 </p>
 
-                {/* Hover Glow Effect */}
+                {/* Detailed Hover Overlay */}
+                <div className="absolute inset-0 p-6 bg-gradient-to-br from-white/95 via-white/90 to-white/95 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 backdrop-blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 rounded-2xl">
+                  {/* Gradient Border */}
+                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${tech.color} p-0.5`}>
+                    <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-900" />
+                  </div>
+                  
+                  <div className="relative z-10 h-full flex flex-col">
+                    {/* Header with Tech Name */}
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className={`p-2 rounded-lg bg-gradient-to-br ${tech.color} text-white shadow-lg`}>
+                        {tech.icon}
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-gray-900 dark:text-white text-lg">{tech.name}</h3>
+                        <span className="text-sm text-gray-600 dark:text-gray-300">{tech.category}</span>
+                      </div>
+                    </div>
+
+                    {/* Key Features */}
+                    <div className="mb-4 flex-1">
+                      <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Key Features:</h4>
+                      <div className="grid grid-cols-2 gap-1">
+                        {tech.details.features.map((feature, idx) => (
+                          <div key={idx} className="text-xs text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                            <div className={`w-1 h-1 rounded-full bg-gradient-to-r ${tech.color}`} />
+                            {feature}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Stats Row */}
+                    <div className="grid grid-cols-3 gap-3 mb-4">
+                      <div className="text-center">
+                        <div className="flex items-center justify-center gap-1 mb-1">
+                          <Star className="w-3 h-3 text-yellow-500" />
+                          <span className="text-sm font-bold text-gray-900 dark:text-white">{tech.details.teamRating}</span>
+                        </div>
+                        <span className="text-xs text-gray-600 dark:text-gray-400">Rating</span>
+                      </div>
+                      <div className="text-center">
+                        <div className="flex items-center justify-center gap-1 mb-1">
+                          <Users className="w-3 h-3 text-blue-500" />
+                          <span className="text-sm font-bold text-gray-900 dark:text-white">{tech.details.projects}</span>
+                        </div>
+                        <span className="text-xs text-gray-600 dark:text-gray-400">Projects</span>
+                      </div>
+                      <div className="text-center">
+                        <div className="flex items-center justify-center gap-1 mb-1">
+                          <Clock className="w-3 h-3 text-green-500" />
+                          <span className="text-xs font-bold text-gray-900 dark:text-white">{tech.details.lastUpdate}</span>
+                        </div>
+                        <span className="text-xs text-gray-600 dark:text-gray-400">Updated</span>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-2">
+                      {tech.details.github && (
+                        <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg text-xs font-medium hover:scale-105 transition-transform">
+                          <Github className="w-3 h-3" />
+                          GitHub
+                        </button>
+                      )}
+                      {tech.details.documentation && (
+                        <button className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r ${tech.color} text-white rounded-lg text-xs font-medium hover:scale-105 transition-transform shadow-lg`}>
+                          <ExternalLink className="w-3 h-3" />
+                          Docs
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Base Hover Glow Effect */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               </div>
             </motion.div>
