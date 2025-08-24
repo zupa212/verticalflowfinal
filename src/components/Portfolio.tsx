@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ExternalLink, Play, Star } from 'lucide-react';
+import { ArrowRight, ExternalLink, Star } from 'lucide-react';
 
 const Portfolio = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -17,7 +17,6 @@ const Portfolio = () => {
       technologies: ["Video Production", "Course Design", "Digital Marketing"],
       rating: 5,
       year: "2024",
-      status: "Live",
       link: "#elite-media-course"
     },
     {
@@ -31,7 +30,6 @@ const Portfolio = () => {
       technologies: ["Brand Identity", "E-commerce", "Fashion Photography"],
       rating: 5,
       year: "2024",
-      status: "Live",
       link: "#ten-fabric"
     },
     {
@@ -45,7 +43,6 @@ const Portfolio = () => {
       technologies: ["E-commerce", "Brand Strategy", "Social Media"],
       rating: 5,
       year: "2024",
-      status: "Live",
       link: "https://414clothing.com"
     },
     {
@@ -59,7 +56,6 @@ const Portfolio = () => {
       technologies: ["Restaurant Branding", "Luxury Marketing", "Event Design"],
       rating: 5,
       year: "2024",
-      status: "Live",
       link: "#phao-dining"
     },
     {
@@ -73,7 +69,6 @@ const Portfolio = () => {
       technologies: ["Service Branding", "Location Marketing", "Customer Experience"],
       rating: 5,
       year: "2024",
-      status: "Live",
       link: "#barbers-north"
     },
     {
@@ -87,7 +82,6 @@ const Portfolio = () => {
       technologies: ["Photography", "Web Design", "Portfolio Management"],
       rating: 5,
       year: "2024",
-      status: "Live",
       link: "https://www.fotischilitidis.gr"
     }
   ];
@@ -189,21 +183,6 @@ const Portfolio = () => {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                 )}
-
-                {/* Overlay Content */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
-                  <div className="text-center text-white">
-                    <Play className="w-12 h-12 mx-auto mb-2" />
-                    <span className="text-sm font-medium">View Project</span>
-                  </div>
-                </div>
-
-                {/* Status Badge */}
-                <div className="absolute top-4 right-4 z-30">
-                  <span className="px-3 py-1 bg-green-500/90 text-white text-xs font-medium rounded-full">
-                    {project.status}
-                  </span>
-                </div>
 
                 {/* Rating */}
                 <div className="absolute top-4 left-4 z-30 flex items-center gap-1">
