@@ -43,8 +43,8 @@ export const preloadCriticalImages = () => {
     '/lovable-uploads/ELITE.png',
     '/lovable-uploads/IZIPEN.png',
     '/lovable-uploads/PNG10F.png',
-    '/lovable-uploads/domination414.png',
-    '/lovable-uploads/barbers-of-the-north.png'
+    '/lovable-uploads/domiation414.png',
+    '/lovable-uploads/barbers%20of%20the%20north.png'
   ];
   
   criticalImages.forEach(src => preloadResource(src, 'image'));
