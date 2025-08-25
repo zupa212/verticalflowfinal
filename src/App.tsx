@@ -8,6 +8,7 @@ import { Suspense, useEffect, lazy } from "react";
 import { analytics, performanceObserver } from "@/utils/analytics";
 import { PageSkeleton } from "@/utils/codeSplitting";
 import { preloadCriticalImages, optimizeAnimations } from "@/utils/performance";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 // Lazy load all route components for code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -94,53 +95,69 @@ const App = () => (
         <AnalyticsSetup />
         <Suspense fallback={<PageSkeleton type="default" />}>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={
+              <ProtectedRoute>
+                <Index />
+              </ProtectedRoute>
+            } />
             <Route 
               path="/reels-thessaloniki" 
               element={
-                <Suspense fallback={<PageSkeleton type="service" />}>
-                  <ReelsThessaloniki />
-                </Suspense>
+                <ProtectedRoute>
+                  <Suspense fallback={<PageSkeleton type="service" />}>
+                    <ReelsThessaloniki />
+                  </Suspense>
+                </ProtectedRoute>
               } 
             />
             <Route 
               path="/social-media-thessaloniki" 
               element={
-                <Suspense fallback={<PageSkeleton type="service" />}>
-                  <SocialMediaThessaloniki />
-                </Suspense>
+                <ProtectedRoute>
+                  <Suspense fallback={<PageSkeleton type="service" />}>
+                    <SocialMediaThessaloniki />
+                  </Suspense>
+                </ProtectedRoute>
               }
             />
             <Route 
               path="/video-editing-thessaloniki" 
               element={
-                <Suspense fallback={<PageSkeleton type="service" />}>
-                  <VideoEditingThessaloniki />
-                </Suspense>
+                <ProtectedRoute>
+                  <Suspense fallback={<PageSkeleton type="service" />}>
+                    <VideoEditingThessaloniki />
+                  </Suspense>
+                </ProtectedRoute>
               }
             />
             <Route 
               path="/tiktok-greece" 
               element={
-                <Suspense fallback={<PageSkeleton type="service" />}>
-                  <TikTokGreece />
-                </Suspense>
+                <ProtectedRoute>
+                  <Suspense fallback={<PageSkeleton type="service" />}>
+                    <TikTokGreece />
+                  </Suspense>
+                </ProtectedRoute>
               }
             />
             <Route 
               path="/about" 
               element={
-                <Suspense fallback={<PageSkeleton type="default" />}>
-                  <About />
-                </Suspense>
+                <ProtectedRoute>
+                  <Suspense fallback={<PageSkeleton type="default" />}>
+                    <About />
+                  </Suspense>
+                </ProtectedRoute>
               }
             />
             <Route 
               path="/contact" 
               element={
-                <Suspense fallback={<PageSkeleton type="default" />}>
-                  <Contact />
-                </Suspense>
+                <ProtectedRoute>
+                  <Suspense fallback={<PageSkeleton type="default" />}>
+                    <Contact />
+                  </Suspense>
+                </ProtectedRoute>
               }
             />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
