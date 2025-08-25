@@ -15,7 +15,7 @@ const ReelsSection = () => {
       number: "01",
       title: "Get Started Now",
       subtitle: "",
-      iconSrc: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ksBwElDCQY/b0kx8nhl_expires_30_days.png",
+      iconSrc: "/lovable-uploads/ELITE.png",
       videoSrc: "/lovable-uploads/REEL1.webm",
       videoSrcMP4: "/videos/get-started.mp4"
     },
@@ -24,7 +24,7 @@ const ReelsSection = () => {
       number: "02",
       title: "Organic Fertilizer",
       subtitle: "",
-      iconSrc: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ksBwElDCQY/ufi7f1bl_expires_30_days.png",
+      iconSrc: "/lovable-uploads/IZIPEN.png",
       videoSrc: "/lovable-uploads/REEL2.webm",
       videoSrcMP4: "/videos/organic-fertilizer.mp4"
     },
@@ -33,7 +33,7 @@ const ReelsSection = () => {
       number: "03",
       title: "Technology Irrigation",
       subtitle: "",
-      iconSrc: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ksBwElDCQY/jjqve23o_expires_30_days.png",
+      iconSrc: "/lovable-uploads/PNG10F.png",
       videoSrc: "/lovable-uploads/REEL3.webm",
       videoSrcMP4: "/videos/technology-irrigation.mp4"
     },
@@ -42,7 +42,7 @@ const ReelsSection = () => {
       number: "04",
       title: "Agricultural Monitoring",
       subtitle: "",
-      iconSrc: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ksBwElDCQY/b0kx8nhl_expires_30_days.png",
+      iconSrc: "/lovable-uploads/ELITE.png",
       videoSrc: "/lovable-uploads/REEL6.webm",
       videoSrcMP4: "/videos/agricultural-monitoring.mp4"
     }
@@ -189,12 +189,12 @@ const ReelsSection = () => {
               key={`${slide.id}-${index}`}
               className="slide-item flex flex-col items-center gap-4 min-w-[372px] mx-4"
             >
-              <div className="bg-neutral-50 w-[372px] h-[698px] sm:h-[798px] md:h-[698px] rounded-3xl flex items-center justify-center relative border-2 border-gray-200 overflow-hidden">
+              <div className="bg-neutral-50 w-[372px] h-[698px] sm:h-[798px] md:h-[698px] rounded-3xl flex items-center justify-center relative border-2 border-gray-200 overflow-hidden group">
                 {/* Video Player - Always visible and autoplaying */}
                 {slide.videoSrc && (
                   <video
                     ref={(el) => (videoRefs.current[index] = el)}
-                    className="absolute inset-0 w-full h-full object-cover rounded-3xl"
+                    className="absolute inset-0 w-full h-full object-cover rounded-3xl group-hover:scale-105 transition-transform duration-700"
                     autoPlay
                     muted
                     loop
@@ -220,22 +220,22 @@ const ReelsSection = () => {
                 )}
                 
                 {/* Instagram-style overlay with project name at top left */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent rounded-3xl">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent rounded-3xl group-hover:from-primary/20 group-hover:to-transparent transition-all duration-500">
                   {/* Project name at top left - Instagram style */}
                   <div className="absolute top-6 left-6 z-20">
                     <div className="flex items-center gap-3">
                       {slide.iconSrc && (
                         <img
                           src={slide.iconSrc} 
-                          className="w-10 h-10 rounded-full border-2 border-white/30"
+                          className="w-10 h-10 rounded-full border-2 border-white/30 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300"
                           alt="Icon"
                         />
                       )}
-                      <div className="text-white">
-                        <h3 className="text-lg font-bold drop-shadow-lg">
+                      <div className="text-white group-hover:text-primary transition-colors duration-300">
+                        <h3 className="text-lg font-bold drop-shadow-lg group-hover:drop-shadow-primary/50">
                           {slide.title}
                         </h3>
-                        <p className="text-sm text-white/80 drop-shadow-lg">
+                        <p className="text-sm text-white/80 group-hover:text-primary/80 drop-shadow-lg">
                           Project #{slide.number}
                         </p>
                       </div>
@@ -244,15 +244,15 @@ const ReelsSection = () => {
 
                   {/* Number badge at top right */}
                   <div className="absolute top-6 right-6 z-20">
-                    <div className="bg-white/20 backdrop-blur-md rounded-full px-4 py-2 border border-white/30">
-                      <span className="text-white font-bold text-lg drop-shadow-lg">
+                    <div className="bg-white/20 backdrop-blur-md rounded-full px-4 py-2 border border-white/30 group-hover:bg-primary/20 group-hover:border-primary/50 transition-all duration-300">
+                      <span className="text-white font-bold text-lg drop-shadow-lg group-hover:text-primary">
                         {slide.number}
                       </span>
                     </div>
                   </div>
 
                   {/* Bottom gradient for better text readability */}
-                  <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/60 to-transparent rounded-b-3xl"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/60 to-transparent rounded-b-3xl group-hover:from-primary/30 transition-all duration-500"></div>
                 </div>
               </div>
             </div>
