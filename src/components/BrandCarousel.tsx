@@ -23,6 +23,12 @@ const BrandCarousel = () => {
     },
     {
       id: 4,
+      name: 'Domination 414',
+      logo: '/lovable-uploads/domination414.png',
+      type: 'image'
+    },
+    {
+      id: 4,
       name: 'Spyfy',
       logo: `<svg viewBox="0 0 120 60" fill="currentColor"><text x="60" y="35" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">SPYFY</text></svg>`,
       type: 'svg'
@@ -83,11 +89,11 @@ const BrandCarousel = () => {
     }
   ];
 
-  // Duplicate brands for seamless loop
-  const duplicatedBrands = [...brands, ...brands];
+  // Triple brands for seamless infinite loop
+  const infiniteBrands = [...brands, ...brands, ...brands];
 
   return (
-    <section className="py-8 md:py-12 bg-background/50 overflow-hidden relative">
+    <section className="py-4 md:py-6 bg-background/50 overflow-hidden relative">
       {/* Top Divider */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/30 to-transparent">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/60 to-transparent opacity-50"></div>
@@ -104,30 +110,30 @@ const BrandCarousel = () => {
           <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
           
           {/* Scrolling Carousel */}
-          <div className="flex overflow-hidden py-8">
+          <div className="flex overflow-hidden py-4">
             <motion.div
-              className="flex gap-12 items-center"
-              animate={{ x: [0, -80 * brands.length] }}
+              className="flex gap-16 items-center"
+              animate={{ x: [0, -80 * brands.length * 2] }}
               transition={{
                 x: {
                   repeat: Infinity,
                   repeatType: "loop",
-                  duration: 30,
+                  duration: 45,
                   ease: "linear",
                 },
               }}
             >
-              {duplicatedBrands.map((brand, index) => (
+              {infiniteBrands.map((brand, index) => (
                 <motion.div
                   key={`${brand.id}-${index}`}
                   className="flex-shrink-0"
                   whileHover={{ 
-                    scale: 1.15,
+                    scale: 1.2,
                     transition: { duration: 0.2, ease: "easeOut" }
                   }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <div className="w-32 md:w-40 h-20 md:h-24 flex items-center justify-center cursor-pointer group">
+                  <div className="w-40 md:w-48 h-24 md:h-28 flex items-center justify-center cursor-pointer group">
                     {brand.type === 'image' ? (
                       <img
                         src={brand.logo}

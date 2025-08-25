@@ -22,29 +22,29 @@ const ReelsSection = () => {
     {
       id: 2,
       number: "02",
-      title: "Organic Fertilizer",
+      title: "Project Two",
       subtitle: "",
       iconSrc: "/lovable-uploads/IZIPEN.png",
       videoSrc: "/lovable-uploads/REEL2.webm",
-      videoSrcMP4: "/videos/organic-fertilizer.mp4"
+      videoSrcMP4: "/videos/project-two.mp4"
     },
     {
       id: 3,
       number: "03",
-      title: "Technology Irrigation",
+      title: "Project Three",
       subtitle: "",
       iconSrc: "/lovable-uploads/PNG10F.png",
       videoSrc: "/lovable-uploads/REEL3.webm",
-      videoSrcMP4: "/videos/technology-irrigation.mp4"
+      videoSrcMP4: "/videos/project-three.mp4"
     },
     {
       id: 4,
       number: "04",
-      title: "Agricultural Monitoring",
+      title: "Project Four",
       subtitle: "",
       iconSrc: "/lovable-uploads/ELITE.png",
       videoSrc: "/lovable-uploads/REEL6.webm",
-      videoSrcMP4: "/videos/agricultural-monitoring.mp4"
+      videoSrcMP4: "/videos/project-four.mp4"
     }
   ];
 
@@ -219,23 +219,23 @@ const ReelsSection = () => {
                   </video>
                 )}
                 
-                {/* Instagram-style overlay with project name at top left */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent rounded-3xl group-hover:from-primary/20 group-hover:to-transparent transition-all duration-500">
-                  {/* Project name at top left - Instagram style */}
+                {/* Simple overlay with project name at top left */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-3xl">
+                  {/* Project name at top left */}
                   <div className="absolute top-6 left-6 z-20">
                     <div className="flex items-center gap-3">
                       {slide.iconSrc && (
                         <img
                           src={slide.iconSrc} 
-                          className="w-10 h-10 rounded-full border-2 border-white/30 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300"
+                          className="w-10 h-10 rounded-full border-2 border-white/30"
                           alt="Icon"
                         />
                       )}
-                      <div className="text-white group-hover:text-primary transition-colors duration-300">
-                        <h3 className="text-lg font-bold drop-shadow-lg group-hover:drop-shadow-primary/50">
+                      <div className="text-white">
+                        <h3 className="text-lg font-bold drop-shadow-lg">
                           {slide.title}
                         </h3>
-                        <p className="text-sm text-white/80 group-hover:text-primary/80 drop-shadow-lg">
+                        <p className="text-sm text-white/80 drop-shadow-lg">
                           Project #{slide.number}
                         </p>
                       </div>
@@ -244,15 +244,12 @@ const ReelsSection = () => {
 
                   {/* Number badge at top right */}
                   <div className="absolute top-6 right-6 z-20">
-                    <div className="bg-white/20 backdrop-blur-md rounded-full px-4 py-2 border border-white/30 group-hover:bg-primary/20 group-hover:border-primary/50 transition-all duration-300">
-                      <span className="text-white font-bold text-lg drop-shadow-lg group-hover:text-primary">
+                    <div className="bg-white/20 backdrop-blur-md rounded-full px-4 py-2 border border-white/30">
+                      <span className="text-white font-bold text-lg drop-shadow-lg">
                         {slide.number}
                       </span>
                     </div>
                   </div>
-
-                  {/* Bottom gradient for better text readability */}
-                  <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/60 to-transparent rounded-b-3xl group-hover:from-primary/30 transition-all duration-500"></div>
                 </div>
               </div>
             </div>
