@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, TrendingUp } from 'lucide-react';
 import BlogCard from './BlogCard';
-import { blogPosts } from '@/data/blogPosts';
+import { blogAPI } from '@/utils/blogAPI';
+import { BlogPost } from '@/types/blog';
 
 const BlogSection = () => {
-  const featuredPosts = blogPosts.slice(0, 3);
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([]);
+
+  useEffect(() => {
+    const posts = blogAPI.getLatestPosts(3);
+    setFeaturedPosts(posts);
+  }, []);
 
   return (
     <section className="py-20 bg-gradient-to-b from-background to-background/50">

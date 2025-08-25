@@ -198,3 +198,138 @@ export const generatePersonSchema = () => ({
   },
   "description": "Digital Marketing Expert εξειδικευμένος σε Social Media Marketing, Reels, Personal Branding και Video Content Creation στη Θεσσαλονίκη."
 });
+
+// NEW: Enhanced Schema Markup
+
+export const generateHowToSchema = (
+  title: string,
+  description: string,
+  steps: Array<{name: string; text: string; image?: string}>,
+  totalTime?: string,
+  difficulty?: string
+) => ({
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": title,
+  "description": description,
+  "totalTime": totalTime,
+  "difficulty": difficulty,
+  "step": steps.map((step, index) => ({
+    "@type": "HowToStep",
+    "position": index + 1,
+    "name": step.name,
+    "text": step.text,
+    "image": step.image ? {
+      "@type": "ImageObject",
+      "url": step.image
+    } : undefined
+  })),
+  "publisher": {
+    "@type": "Organization",
+    "name": "VerticalFlow",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://verticalflow.gr/logo.png"
+    }
+  }
+});
+
+export const generateReviewSchema = (
+  itemName: string,
+  rating: number,
+  reviewCount: number,
+  bestRating: number = 5,
+  worstRating: number = 1
+) => ({
+  "@context": "https://schema.org",
+  "@type": "AggregateRating",
+  "itemReviewed": {
+    "@type": "Service",
+    "name": itemName,
+    "provider": {
+      "@type": "Organization",
+      "name": "VerticalFlow"
+    }
+  },
+  "ratingValue": rating,
+  "reviewCount": reviewCount,
+  "bestRating": bestRating,
+  "worstRating": worstRating
+});
+
+export const generateBreadcrumbSchema = (breadcrumbs: Array<{name: string; url: string}>) => ({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbs.map((crumb, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": crumb.name,
+    "item": crumb.url
+  }))
+});
+
+export const generateVideoSchema = (
+  title: string,
+  description: string,
+  thumbnailUrl: string,
+  uploadDate: string,
+  duration: string,
+  embedUrl?: string
+) => ({
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": title,
+  "description": description,
+  "thumbnailUrl": thumbnailUrl,
+  "uploadDate": uploadDate,
+  "duration": duration,
+  "embedUrl": embedUrl,
+  "publisher": {
+    "@type": "Organization",
+    "name": "VerticalFlow",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://verticalflow.gr/logo.png"
+    }
+  }
+});
+
+export const generateWebSiteSchema = () => ({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "VerticalFlow",
+  "url": "https://verticalflow.gr",
+  "description": "Digital Agency στη Θεσσαλονίκη ειδικευμένη σε Reels, Social Media Marketing και Video Editing",
+  "publisher": {
+    "@type": "Organization",
+    "name": "VerticalFlow"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://verticalflow.gr/search?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+});
+
+export const generateWebPageSchema = (
+  title: string,
+  description: string,
+  url: string,
+  lastModified?: string,
+  breadcrumbs?: Array<{name: string; url: string}>
+) => ({
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": title,
+  "description": description,
+  "url": url,
+  "dateModified": lastModified,
+  "breadcrumb": breadcrumbs ? generateBreadcrumbSchema(breadcrumbs) : undefined,
+  "publisher": {
+    "@type": "Organization",
+    "name": "VerticalFlow"
+  }
+});

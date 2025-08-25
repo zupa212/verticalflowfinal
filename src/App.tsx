@@ -18,6 +18,7 @@ const VideoEditingThessaloniki = lazy(() => import("./pages/VideoEditingThessalo
 const TikTokGreece = lazy(() => import("./pages/TikTokGreece"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Admin = lazy(() => import("./pages/Admin"));
 
 const queryClient = new QueryClient({
   defaultOptions: {

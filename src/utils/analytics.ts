@@ -1,223 +1,185 @@
-import { onCLS, onINP, onFCP, onLCP, onTTFB } from 'web-vitals';
+// Analytics and tracking utilities
 
-declare global {
-  interface Window {
-    gtag: (...args: any[]) => void;
-    dataLayer: any[];
-  }
-}
+// Google Analytics 4 Configuration
+const GA_TRACKING_ID = 'G-XXXXXXXXXX'; // Replace with your actual GA4 ID
+const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // Replace with your actual measurement ID
 
-export const analytics = {
-  // Initialize Google Analytics
-  init: () => {
-    const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
-    
-    if (!GA_TRACKING_ID) {
-      console.warn('GA_TRACKING_ID not found in environment variables');
-      return;
-    }
+// Facebook Pixel Configuration
+const FB_PIXEL_ID = 'XXXXXXXXXX'; // Replace with your actual Pixel ID
 
+// Initialize Google Analytics 4
+export const initGA4 = () => {
+  if (typeof window !== 'undefined' && !window.gtag) {
     // Load Google Analytics script
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`;
     document.head.appendChild(script);
 
-    // Initialize gtag
     window.dataLayer = window.dataLayer || [];
     window.gtag = function() {
       window.dataLayer.push(arguments);
     };
-    
+
     window.gtag('js', new Date());
     window.gtag('config', GA_TRACKING_ID, {
       page_title: document.title,
       page_location: window.location.href,
+      custom_map: {
+        'custom_parameter_1': 'user_type',
+        'custom_parameter_2': 'service_category'
+      }
     });
+  }
+};
 
-    console.log('Google Analytics initialized');
-  },
-
-  // Track page views
-  pageView: (url?: string) => {
-    if (typeof window.gtag !== 'function') return;
-    
-    window.gtag('config', import.meta.env.VITE_GA_TRACKING_ID, {
-      page_path: url || window.location.pathname,
-      page_title: document.title,
-      page_location: window.location.href,
+// Track page views
+export const trackPageView = (url: string, title?: string) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('config', GA_TRACKING_ID, {
+      page_path: url,
+      page_title: title || document.title
     });
-  },
+  }
+};
 
-  // Track custom events
-  event: (action: string, parameters?: any) => {
-    if (typeof window.gtag !== 'function') return;
-    
+// Track custom events
+export const trackEvent = (action: string, category: string, label?: string, value?: number) => {
+  if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', action, {
-      event_category: 'engagement',
-      event_label: parameters?.label,
-      value: parameters?.value,
-      ...parameters,
-    });
-  },
-
-  // Track button clicks
-  buttonClick: (buttonName: string, location?: string) => {
-    analytics.event('click', {
-      event_category: 'button',
-      event_label: buttonName,
-      event_location: location || window.location.pathname,
-    });
-  },
-
-  // Track form submissions
-  formSubmit: (formName: string, success: boolean = true) => {
-    analytics.event('form_submit', {
-      event_category: 'form',
-      event_label: formName,
-      success: success,
-    });
-  },
-
-  // Track scroll depth
-  scrollDepth: (percentage: number) => {
-    analytics.event('scroll_depth', {
-      event_category: 'engagement',
-      event_label: `${percentage}%`,
-      value: percentage,
-    });
-  },
-
-  // Track video interactions
-  videoPlay: (videoTitle: string) => {
-    analytics.event('video_play', {
-      event_category: 'video',
-      event_label: videoTitle,
-    });
-  },
-
-  videoPause: (videoTitle: string, progress: number) => {
-    analytics.event('video_pause', {
-      event_category: 'video',
-      event_label: videoTitle,
-      value: Math.round(progress),
-    });
-  },
-
-  // Track downloads
-  download: (fileName: string, fileType: string) => {
-    analytics.event('file_download', {
-      event_category: 'download',
-      event_label: fileName,
-      file_type: fileType,
-    });
-  },
-
-  // Track external link clicks
-  externalLink: (url: string) => {
-    analytics.event('click', {
-      event_category: 'external_link',
-      event_label: url,
-    });
-  },
-
-  // Track search
-  search: (searchTerm: string, results?: number) => {
-    analytics.event('search', {
-      search_term: searchTerm,
-      event_category: 'search',
-      value: results,
-    });
-  },
-
-  // Track page timing
-  timing: (name: string, value: number, category: string = 'performance') => {
-    analytics.event('timing_complete', {
       event_category: category,
-      event_label: name,
-      value: Math.round(value),
-    });
-  },
-
-  // Track errors
-  exception: (description: string, fatal: boolean = false) => {
-    if (typeof window.gtag !== 'function') return;
-    
-    window.gtag('event', 'exception', {
-      description: description,
-      fatal: fatal,
+      event_label: label,
+      value: value
     });
   }
 };
 
-// Performance Observer for Core Web Vitals
+// Track form submissions
+export const trackFormSubmission = (formName: string) => {
+  trackEvent('form_submit', 'engagement', formName);
+};
+
+// Track button clicks
+export const trackButtonClick = (buttonName: string, location: string) => {
+  trackEvent('button_click', 'engagement', `${buttonName}_${location}`);
+};
+
+// Track scroll depth
+export const trackScrollDepth = (depth: number) => {
+  trackEvent('scroll', 'engagement', `scroll_depth_${depth}%`);
+};
+
+// Track video interactions
+export const trackVideoInteraction = (action: string, videoTitle: string) => {
+  trackEvent(action, 'video', videoTitle);
+};
+
+// Track social media clicks
+export const trackSocialClick = (platform: string, linkType: string) => {
+  trackEvent('social_click', 'social', `${platform}_${linkType}`);
+};
+
+// Track service page views
+export const trackServiceView = (serviceName: string) => {
+  trackEvent('service_view', 'business', serviceName);
+};
+
+// Track contact method usage
+export const trackContactMethod = (method: string) => {
+  trackEvent('contact_method', 'business', method);
+};
+
+// Initialize Facebook Pixel
+export const initFacebookPixel = () => {
+  if (typeof window !== 'undefined' && !window.fbq) {
+    // Load Facebook Pixel script
+    const script = document.createElement('script');
+    script.innerHTML = `
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '${FB_PIXEL_ID}');
+      fbq('track', 'PageView');
+    `;
+    document.head.appendChild(script);
+  }
+};
+
+// Track Facebook Pixel events
+export const trackFacebookEvent = (eventName: string, parameters?: any) => {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', eventName, parameters);
+  }
+};
+
+// Performance monitoring
 export const performanceObserver = () => {
-  // Track Core Web Vitals using the correct web-vitals API
-  onCLS((metric) => {
-    analytics.timing('CLS', metric.value, 'web_vitals');
-  });
-
-  onINP((metric) => {
-    analytics.timing('INP', metric.value, 'web_vitals');
-  });
-
-  onFCP((metric) => {
-    analytics.timing('FCP', metric.value, 'web_vitals');
-  });
-
-  onLCP((metric) => {
-    analytics.timing('LCP', metric.value, 'web_vitals');
-  });
-
-  onTTFB((metric) => {
-    analytics.timing('TTFB', metric.value, 'web_vitals');
-  });
-
-  // Track navigation timing
-  if ('performance' in window) {
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const perfData = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-        
-        if (perfData) {
-          analytics.timing('DOM_Content_Loaded', perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart);
-          analytics.timing('Load_Complete', perfData.loadEventEnd - perfData.loadEventStart);
-          analytics.timing('DNS_Lookup', perfData.domainLookupEnd - perfData.domainLookupStart);
-          analytics.timing('TCP_Connection', perfData.connectEnd - perfData.connectStart);
+  if (typeof window !== 'undefined' && 'PerformanceObserver' in window) {
+    // Monitor Core Web Vitals
+    const observer = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        if (entry.entryType === 'largest-contentful-paint') {
+          trackEvent('lcp', 'web_vitals', 'largest_contentful_paint', Math.round(entry.startTime));
         }
-      }, 1000);
-    });
-  }
-
-  // Track resource timing for critical assets
-  if ('PerformanceObserver' in window) {
-    const resourceObserver = new PerformanceObserver((list) => {
-      list.getEntries().forEach((entry) => {
-        const resourceEntry = entry as PerformanceResourceTiming;
-        
-        // Track slow resources (> 1 second)
-        if (resourceEntry.duration > 1000) {
-          analytics.timing('Slow_Resource', resourceEntry.duration, 'performance');
+        if (entry.entryType === 'first-input') {
+          trackEvent('fid', 'web_vitals', 'first_input_delay', Math.round(entry.processingStart - entry.startTime));
         }
-      });
+        if (entry.entryType === 'layout-shift') {
+          trackEvent('cls', 'web_vitals', 'cumulative_layout_shift', Math.round(entry.value * 1000));
+        }
+      }
     });
 
-    resourceObserver.observe({ entryTypes: ['resource'] });
+    observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
   }
 };
 
-// Enhanced error tracking
-export const setupErrorTracking = () => {
-  // Global error handler
-  window.addEventListener('error', (event) => {
-    analytics.exception(`${event.error?.name}: ${event.error?.message}`, false);
-  });
-
-  // Unhandled promise rejections
-  window.addEventListener('unhandledrejection', (event) => {
-    analytics.exception(`Unhandled Promise: ${event.reason}`, false);
-  });
+// Analytics initialization
+export const analytics = {
+  init: () => {
+    initGA4();
+    initFacebookPixel();
+    performanceObserver();
+  },
+  
+  pageView: () => {
+    trackPageView(window.location.pathname, document.title);
+    trackFacebookEvent('PageView');
+  },
+  
+  scrollDepth: (depth: number) => {
+    trackScrollDepth(depth);
+  },
+  
+  formSubmission: (formName: string) => {
+    trackFormSubmission(formName);
+    trackFacebookEvent('Lead');
+  },
+  
+  serviceView: (serviceName: string) => {
+    trackServiceView(serviceName);
+  },
+  
+  contactMethod: (method: string) => {
+    trackContactMethod(method);
+    trackFacebookEvent('Contact');
+  },
+  
+  socialClick: (platform: string, linkType: string) => {
+    trackSocialClick(platform, linkType);
+  }
 };
 
-// Initialize error tracking
-setupErrorTracking();
+// TypeScript declarations
+declare global {
+  interface Window {
+    gtag: (...args: any[]) => void;
+    fbq: (...args: any[]) => void;
+    dataLayer: any[];
+  }
+}

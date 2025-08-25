@@ -28,6 +28,12 @@ const BrandCarousel = () => {
       logo: '/lovable-uploads/domination414.png',
       type: 'image'
     },
+    {
+      id: 5,
+      name: 'Barbers of the North',
+      logo: '/lovable-uploads/barbers-of-the-north.png',
+      type: 'image'
+    },
 
   ];
 
