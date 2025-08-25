@@ -5,53 +5,81 @@ const BrandCarousel = () => {
   const brands = [
     {
       id: 1,
-      name: 'Spyfy',
-      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><text x="60" y="35" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">SPYFY</text></svg>`,
+      name: 'Elite Media',
+      logo: '/lovable-uploads/ELITE.png',
+      type: 'image'
     },
     {
       id: 2,
-      name: 'Diana Sheth',
-      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><circle cx="30" cy="30" r="15" fill="#3B82F6"/><text x="60" y="35" text-anchor="middle" font-family="Arial" font-size="12">DIANA</text></svg>`,
+      name: 'Izipen',
+      logo: '/lovable-uploads/IZIPEN.png',
+      type: 'image'
     },
     {
       id: 3,
-      name: 'Midisic',
-      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><rect x="10" y="20" width="20" height="20" fill="#10B981"/><text x="70" y="35" text-anchor="middle" font-family="Arial" font-size="14">MIDISIC</text></svg>`,
+      name: 'PNG10F',
+      logo: '/lovable-uploads/PNG10F.png',
+      type: 'image'
     },
     {
       id: 4,
-      name: 'FAD',
-      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><polygon points="30,10 50,30 30,50 10,30" fill="#F59E0B"/><text x="80" y="35" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">FAD</text></svg>`,
+      name: 'Spyfy',
+      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><text x="60" y="35" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">SPYFY</text></svg>`,
+      type: 'svg'
     },
     {
       id: 5,
-      name: 'tl;dv',
-      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><ellipse cx="25" cy="30" rx="15" ry="10" fill="#8B5CF6"/><text x="65" y="35" text-anchor="middle" font-family="Arial" font-size="14">TL;DV</text></svg>`,
+      name: 'Diana Sheth',
+      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><circle cx="30" cy="30" r="15" fill="#3B82F6"/><text x="60" y="35" text-anchor="middle" font-family="Arial" font-size="12">DIANA</text></svg>`,
+      type: 'svg'
     },
     {
       id: 6,
-      name: 'Letship',
-      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><path d="M10 40 L30 20 L50 40 Z" fill="#EF4444"/><text x="75" y="35" text-anchor="middle" font-family="Arial" font-size="12">LETSHIP</text></svg>`,
+      name: 'Midisic',
+      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><rect x="10" y="20" width="20" height="20" fill="#10B981"/><text x="70" y="35" text-anchor="middle" font-family="Arial" font-size="14">MIDISIC</text></svg>`,
+      type: 'svg'
     },
     {
       id: 7,
-      name: 'Bereliti',
-      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><rect x="15" y="15" width="30" height="30" rx="5" fill="#06B6D4"/><text x="75" y="35" text-anchor="middle" font-family="Arial" font-size="11">BERELITI</text></svg>`,
+      name: 'FAD',
+      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><polygon points="30,10 50,30 30,50 10,30" fill="#F59E0B"/><text x="80" y="35" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">FAD</text></svg>`,
+      type: 'svg'
     },
     {
       id: 8,
-      name: 'Speint',
-      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><circle cx="25" cy="25" r="8" fill="#84CC16"/><circle cx="25" cy="35" r="8" fill="#84CC16"/><text x="70" y="35" text-anchor="middle" font-family="Arial" font-size="14">SPEINT</text></svg>`,
+      name: 'tl;dv',
+      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><ellipse cx="25" cy="30" rx="15" ry="10" fill="#8B5CF6"/><text x="65" y="35" text-anchor="middle" font-family="Arial" font-size="14">TL;DV</text></svg>`,
+      type: 'svg'
     },
     {
       id: 9,
-      name: 'Skyfoly',
-      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><star cx="25" cy="30" r="12" fill="#F97316"/><text x="75" y="35" text-anchor="middle" font-family="Arial" font-size="12">SKYFOLY</text></svg>`,
+      name: 'Letship',
+      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><path d="M10 40 L30 20 L50 40 Z" fill="#EF4444"/><text x="75" y="35" text-anchor="middle" font-family="Arial" font-size="12">LETSHIP</text></svg>`,
+      type: 'svg'
     },
     {
       id: 10,
+      name: 'Bereliti',
+      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><rect x="15" y="15" width="30" height="30" rx="5" fill="#06B6D4"/><text x="75" y="35" text-anchor="middle" font-family="Arial" font-size="11">BERELITI</text></svg>`,
+      type: 'svg'
+    },
+    {
+      id: 11,
+      name: 'Speint',
+      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><circle cx="25" cy="25" r="8" fill="#84CC16"/><circle cx="25" cy="35" r="8" fill="#84CC16"/><text x="70" y="35" text-anchor="middle" font-family="Arial" font-size="14">SPEINT</text></svg>`,
+      type: 'svg'
+    },
+    {
+      id: 12,
+      name: 'Skyfoly',
+      logo: `<svg viewBox="0 0 120 60" fill="currentColor"><star cx="25" cy="30" r="12" fill="#F97316"/><text x="75" y="35" text-anchor="middle" font-family="Arial" font-size="12">SKYFOLY</text></svg>`,
+      type: 'svg'
+    },
+    {
+      id: 13,
       name: 'TechCorp',
       logo: `<svg viewBox="0 0 120 60" fill="currentColor"><rect x="10" y="25" width="30" height="10" fill="#EC4899"/><text x="75" y="35" text-anchor="middle" font-family="Arial" font-size="12">TECHCORP</text></svg>`,
+      type: 'svg'
     }
   ];
 
@@ -100,10 +128,18 @@ const BrandCarousel = () => {
                   whileTap={{ scale: 0.95 }}
                 >
                   <div className="w-32 md:w-40 h-20 md:h-24 flex items-center justify-center cursor-pointer group">
-                    <div 
-                      className="w-full h-full opacity-40 group-hover:opacity-80 transition-all duration-300 filter grayscale group-hover:grayscale-0"
-                      dangerouslySetInnerHTML={{ __html: brand.logo }}
-                    />
+                    {brand.type === 'image' ? (
+                      <img
+                        src={brand.logo}
+                        alt={brand.name}
+                        className="w-full h-full object-contain opacity-40 group-hover:opacity-100 transition-all duration-300 filter grayscale group-hover:grayscale-0 group-hover:brightness-110 group-hover:contrast-125"
+                      />
+                    ) : (
+                      <div 
+                        className="w-full h-full opacity-40 group-hover:opacity-80 transition-all duration-300 filter grayscale group-hover:grayscale-0 group-hover:text-primary"
+                        dangerouslySetInnerHTML={{ __html: brand.logo }}
+                      />
+                    )}
                   </div>
                 </motion.div>
               ))}
