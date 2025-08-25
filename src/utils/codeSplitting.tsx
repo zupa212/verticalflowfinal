@@ -1,6 +1,40 @@
 
-import React, { Suspense, ComponentType } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+
+// Lazy load components
+export const LazyHero = lazy(() => import('@/components/Hero'));
+export const LazyReelsSection = lazy(() => import('@/components/ReelsSection'));
+export const LazyPortfolio = lazy(() => import('@/components/Portfolio'));
+export const LazyBrandCarousel = lazy(() => import('@/components/BrandCarousel'));
+export const LazyTestimonials = lazy(() => import('@/components/Testimonials'));
+export const LazyBlogSection = lazy(() => import('@/components/BlogSection'));
+export const LazyFAQ = lazy(() => import('@/components/FAQ'));
+export const LazyFooter = lazy(() => import('@/components/Footer'));
+
+// Loading component
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center min-h-[200px]">
+    <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
+
+// Wrapper component for lazy loading
+export const withSuspense = (Component: React.ComponentType<any>) => {
+  return (props: any) => (
+    <Suspense fallback={<LoadingSpinner />}>
+      <Component {...props} />
+    </Suspense>
+  );
+};
+
+// Preload components when needed
+export const preloadComponent = (componentLoader: () => Promise<any>) => {
+  const link = document.createElement('link');
+  link.rel = 'prefetch';
+  link.href = componentLoader.toString();
+  document.head.appendChild(link);
+};
 
 // Loading fallback component
 export const PageSkeleton = ({ type = 'default' }: { type?: 'default' | 'blog' | 'service' }) => {
@@ -99,10 +133,10 @@ export const PageSkeleton = ({ type = 'default' }: { type?: 'default' | 'blog' |
 
 // HOC for lazy loading with custom loading states
 export const withLazyLoading = <P extends Record<string, any> = {}>(
-  importFunc: () => Promise<{ default: ComponentType<P> }>,
+  importFunc: () => Promise<{ default: React.ComponentType<P> }>,
   fallbackType: 'default' | 'blog' | 'service' = 'default'
 ) => {
-  const LazyComponent = React.lazy(importFunc);
+  const LazyComponent = lazy(importFunc);
 
   return (props: P) => (
     <Suspense fallback={<PageSkeleton type={fallbackType} />}>

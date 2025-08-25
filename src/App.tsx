@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, useEffect, lazy } from "react";
 import { analytics, performanceObserver } from "@/utils/analytics";
 import { PageSkeleton } from "@/utils/codeSplitting";
+import { preloadCriticalImages, optimizeAnimations } from "@/utils/performance";
 
 // Lazy load all route components for code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -43,19 +44,33 @@ const AnalyticsSetup = () => {
     // Start performance monitoring
     performanceObserver();
     
+    // Preload critical images
+    preloadCriticalImages();
+    
+    // Optimize animations
+    optimizeAnimations();
+    
     // Track initial page view
     analytics.pageView();
     
-    // Setup scroll depth tracking
+    // Setup scroll depth tracking with throttling
     let maxScroll = 0;
+    let ticking = false;
+    
     const trackScrollDepth = () => {
-      const scrollPercent = Math.round(
-        (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
-      );
-      
-      if (scrollPercent > maxScroll && scrollPercent % 25 === 0) {
-        maxScroll = scrollPercent;
-        analytics.scrollDepth(scrollPercent);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollPercent = Math.round(
+            (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+          );
+          
+          if (scrollPercent > maxScroll && scrollPercent % 25 === 0) {
+            maxScroll = scrollPercent;
+            analytics.scrollDepth(scrollPercent);
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
     

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Clock, FileText, Infinity } from 'lucide-react';
 import { gsap } from 'gsap';
 import TypewriterText from '@/components/TypewriterText';
 import { LottieAnimation } from '@/components/LottieAnimation';
@@ -13,7 +12,6 @@ const Hero: React.FC = () => {
   const headlineRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const featuresRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.5 });
@@ -31,11 +29,6 @@ const Hero: React.FC = () => {
       { scale: 0.8, opacity: 0 },
       { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" },
       "-=0.3"
-    )
-    .fromTo(featuresRef.current?.children ? Array.from(featuresRef.current.children) : [],
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, stagger: 0.15, ease: "power2.out" },
-      "-=0.2"
     );
   }, []);
 
@@ -96,32 +89,7 @@ const Hero: React.FC = () => {
           </Button>
         </div>
 
-        {/* Feature Icons Row */}
-        <div
-          ref={featuresRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-3xl mx-auto"
-        >
-          <div className="flex flex-col items-center gap-3 hover-glow cursor-pointer group">
-            <div className="w-12 h-12 bg-muted/50 rounded-lg flex items-center justify-center group-hover:bg-muted/70 transition-all duration-300">
-              <Clock className="w-6 h-6 text-foreground group-hover:scale-110 transition-transform duration-300" />
-            </div>
-            <span className="text-sm font-medium text-foreground text-center group-hover:text-foreground/80 transition-colors duration-300">{t('hero.features.delivery')}</span>
-          </div>
-          
-          <div className="flex flex-col items-center gap-3 hover-glow cursor-pointer group">
-            <div className="w-12 h-12 bg-muted/50 rounded-lg flex items-center justify-center group-hover:bg-muted/70 transition-all duration-300">
-              <FileText className="w-6 h-6 text-foreground group-hover:scale-110 transition-transform duration-300" />
-            </div>
-            <span className="text-sm font-medium text-foreground text-center group-hover:text-foreground/80 transition-colors duration-300">{t('hero.features.portal')}</span>
-          </div>
-          
-          <div className="flex flex-col items-center gap-3 hover-glow cursor-pointer group">
-            <div className="w-12 h-12 bg-muted/50 rounded-lg flex items-center justify-center group-hover:bg-muted/70 transition-all duration-300">
-              <Infinity className="w-6 h-6 text-foreground group-hover:scale-110 transition-transform duration-300" />
-            </div>
-            <span className="text-sm font-medium text-foreground text-center group-hover:text-foreground/80 transition-colors duration-300">{t('hero.features.unlimited')}</span>
-          </div>
-        </div>
+
       </div>
     </section>
   );

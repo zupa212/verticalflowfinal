@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import LazyImage from './LazyImage';
 
 const BrandCarousel = () => {
   const brands = [
@@ -89,8 +90,8 @@ const BrandCarousel = () => {
     }
   ];
 
-  // Triple brands for seamless infinite loop
-  const infiniteBrands = [...brands, ...brands, ...brands];
+  // Memoized brands array for better performance
+  const infiniteBrands = useMemo(() => [...brands, ...brands, ...brands], []);
 
   return (
     <section className="py-4 md:py-6 bg-background/50 overflow-hidden relative">
@@ -135,7 +136,7 @@ const BrandCarousel = () => {
                 >
                   <div className="w-40 md:w-48 h-24 md:h-28 flex items-center justify-center cursor-pointer group">
                     {brand.type === 'image' ? (
-                      <img
+                      <LazyImage
                         src={brand.logo}
                         alt={brand.name}
                         className="w-full h-full object-contain opacity-40 group-hover:opacity-100 transition-all duration-300 filter grayscale group-hover:grayscale-0 group-hover:brightness-110 group-hover:contrast-125"

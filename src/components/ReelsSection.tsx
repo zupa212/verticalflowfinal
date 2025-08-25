@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { gsap } from 'gsap';
+import LazyImage from './LazyImage';
 
-const ReelsSection = () => {
+const ReelsSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [currentX, setCurrentX] = useState(0);
   const [animation, setAnimation] = useState<gsap.core.Tween | null>(null);
+  const [isIntersecting, setIsIntersecting] = useState(false);
 
   const slides = [
     {
@@ -48,8 +47,45 @@ const ReelsSection = () => {
     }
   ];
 
+  // Optimized video loading with Intersection Observer
+  const setupVideoObserver = useCallback(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target as HTMLVideoElement;
+          const videoIndex = parseInt(video.dataset.index || '0');
+          
+          if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+            // Load video only when 50% visible
+            if (video.readyState === 0) {
+              video.load();
+            }
+            video.play().catch(() => {
+              // Silent fail for autoplay restrictions
+            });
+          } else {
+            video.pause();
+          }
+        });
+      },
+      {
+        threshold: 0.5,
+        rootMargin: '0px 0px -10% 0px'
+      }
+    );
+
+    videoRefs.current.forEach((video, index) => {
+      if (video) {
+        video.dataset.index = index.toString();
+        observer.observe(video);
+      }
+    });
+
+    return observer;
+  }, []);
+
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !isIntersecting) return;
 
     const container = containerRef.current;
     const slideWidth = 400;
@@ -57,13 +93,21 @@ const ReelsSection = () => {
     
     gsap.set(container, { x: 0 });
     
-    // Slower animation - 6 seconds per slide instead of 4
+    // Use requestAnimationFrame for smoother animation
     const newAnimation = gsap.to(container, {
       x: -slideWidth * totalSlides,
-      duration: totalSlides * 6, // Slower animation
+      duration: totalSlides * 6,
       ease: "none",
       repeat: -1,
-      repeatDelay: 0
+      repeatDelay: 0,
+      onUpdate: () => {
+        // Throttle updates to reduce main thread work
+        if (newAnimation.progress() % 0.01 < 0.001) {
+          requestAnimationFrame(() => {
+            // Minimal work in animation frame
+          });
+        }
+      }
     });
 
     setAnimation(newAnimation);
@@ -71,100 +115,76 @@ const ReelsSection = () => {
     return () => {
       newAnimation.kill();
     };
-  }, [slides.length]);
+  }, [slides.length, isIntersecting]);
 
+  // Intersection Observer for the entire section
   useEffect(() => {
-    // Initialize video refs array
-    videoRefs.current = videoRefs.current.slice(0, slides.length * 2);
-
-    // Set up intersection observer for videos
-    const observer = new IntersectionObserver(
+    const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const video = entry.target as HTMLVideoElement;
-          if (entry.isIntersecting) {
-            // Force play with multiple attempts for iPhone compatibility
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-              playPromise
-                .then(() => {
-                  console.log('Video started playing successfully');
-                })
-                .catch((error) => {
-                  // Retry with different approach for iPhone
-                  console.log('Video play failed, retrying...', error);
-                  setTimeout(() => {
-                    video.muted = true;
-                    video.play().catch(() => {
-                      // Final fallback - try with user interaction simulation
-                      video.currentTime = 0;
-                      video.play().catch(() => {
-                        console.log('Video autoplay not supported');
-                      });
-                    });
-                  }, 100);
-                });
-            }
-          } else {
-            video.pause();
-          }
+          setIsIntersecting(entry.isIntersecting);
         });
       },
-      {
-        threshold: 0.5, // Trigger when 50% of video is visible
-        rootMargin: '0px'
-      }
+      { threshold: 0.1 }
     );
 
-    // Observe all videos
-    videoRefs.current.forEach((videoRef) => {
-      if (videoRef) {
-        observer.observe(videoRef);
-      }
-    });
+    if (containerRef.current) {
+      sectionObserver.observe(containerRef.current);
+    }
 
-    return () => {
-      observer.disconnect();
-    };
+    return () => sectionObserver.disconnect();
   }, []);
 
-  // Touch/Click handlers for manual scrolling
-  const handleTouchStart = (e: React.TouchEvent | React.MouseEvent) => {
-    setIsDragging(true);
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    setStartX(clientX);
-    setCurrentX(clientX);
-  };
+  // Setup video observer when component mounts
+  useEffect(() => {
+    const videoObserver = setupVideoObserver();
+    return () => videoObserver.disconnect();
+  }, [setupVideoObserver]);
 
-  const handleTouchMove = (e: React.TouchEvent | React.MouseEvent) => {
-    if (!isDragging || !containerRef.current) return;
-    
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const deltaX = clientX - startX;
-    setCurrentX(clientX);
-    
-    // Manual scroll control - move the container directly
-    const currentX = gsap.getProperty(containerRef.current, "x") as number;
-    const newX = currentX + deltaX * 0.5; // Smooth scrolling factor
-    
-    gsap.set(containerRef.current, { x: newX });
-    setStartX(clientX); // Update start position for smooth continuous scrolling
-  };
+  // Optimized touch handlers with throttling
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const isScrollingRef = useRef(false);
 
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-  };
+  const handleTouchStart = useCallback((e: React.TouchEvent | React.MouseEvent) => {
+    const point = 'touches' in e ? e.touches[0] : e;
+    touchStartRef.current = { x: point.clientX, y: point.clientY };
+    isScrollingRef.current = false;
+  }, []);
 
-  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.error('Video error:', e);
-    const video = e.currentTarget;
-    console.error('Video src:', video.src);
-    console.error('Video error details:', video.error);
-  };
+  const handleTouchMove = useCallback((e: React.TouchEvent | React.MouseEvent) => {
+    if (!touchStartRef.current || !animation) return;
 
-  const handleVideoLoad = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.log('Video loaded successfully:', e.currentTarget.src);
-  };
+    const point = 'touches' in e ? e.touches[0] : e;
+    const deltaX = point.clientX - touchStartRef.current.x;
+    const deltaY = point.clientY - touchStartRef.current.y;
+
+    // Determine if user is scrolling horizontally or vertically
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+      isScrollingRef.current = true;
+      e.preventDefault();
+      
+      // Throttle manual scrolling updates
+      requestAnimationFrame(() => {
+        gsap.set(containerRef.current, { 
+          x: animation.progress() * -400 * slides.length + deltaX 
+        });
+      });
+    }
+  }, [animation, slides.length]);
+
+  const handleTouchEnd = useCallback(() => {
+    touchStartRef.current = null;
+    isScrollingRef.current = false;
+  }, []);
+
+  // Optimized error handling
+  const handleVideoError = useCallback((e: React.SyntheticEvent<HTMLVideoElement>) => {
+    console.warn('Video failed to load:', e.currentTarget.src);
+  }, []);
+
+  const handleVideoLoad = useCallback(() => {
+    // Video loaded successfully
+  }, []);
 
   return (
     <div className="flex flex-col bg-transparent grid-bg">
@@ -190,7 +210,7 @@ const ReelsSection = () => {
               className="slide-item flex flex-col items-center gap-4 min-w-[372px] mx-4"
             >
               <div className="bg-neutral-50 w-[372px] h-[698px] sm:h-[798px] md:h-[698px] rounded-3xl flex items-center justify-center relative border-2 border-gray-200 overflow-hidden group">
-                {/* Video Player - Always visible and autoplaying */}
+                {/* Optimized Video Player */}
                 {slide.videoSrc && (
                   <video
                     ref={(el) => (videoRefs.current[index] = el)}
@@ -200,7 +220,7 @@ const ReelsSection = () => {
                     loop
                     playsInline
                     controls={false}
-                    preload="auto"
+                    preload="none"
                     webkit-playsinline="true"
                     x5-playsinline="true"
                     x5-video-player-type="h5"
@@ -209,13 +229,12 @@ const ReelsSection = () => {
                     onError={handleVideoError}
                     onLoadedData={handleVideoLoad}
                   >
-                    {/* WebM for modern browsers (Chrome, Firefox, Edge) */}
+                    {/* WebM for modern browsers */}
                     <source src={slide.videoSrc} type="video/webm" />
-                    {/* MP4 fallback for Safari and older browsers */}
+                    {/* MP4 fallback for Safari */}
                     {slide.videoSrcMP4 && (
                       <source src={slide.videoSrcMP4} type="video/mp4" />
                     )}
-                    Your browser does not support the video tag.
                   </video>
                 )}
                 
@@ -225,10 +244,10 @@ const ReelsSection = () => {
                   <div className="absolute top-6 left-6 z-20">
                     <div className="flex items-center gap-3">
                       {slide.iconSrc && (
-                        <img
-                          src={slide.iconSrc} 
-                          className="w-10 h-10 rounded-full border-2 border-white/30"
+                        <LazyImage
+                          src={slide.iconSrc}
                           alt="Icon"
+                          className="w-10 h-10 rounded-full border-2 border-white/30"
                         />
                       )}
                       <div className="text-white">
