@@ -9,6 +9,10 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "jsx": "preserve",
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "target": "es2020",
     "noImplicitAny": false,
     "noUnusedParameters": false,
     "skipLibCheck": true,

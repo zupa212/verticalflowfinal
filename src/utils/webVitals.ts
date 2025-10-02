@@ -185,9 +185,9 @@ export const performanceOptimization = {
   // Preload critical resources
   preloadCriticalResources: () => {
     const criticalResources = [
-      '/src/assets/hero-illustration.jpg',
-      '/src/assets/portfolio-1.jpg',
-      '/src/assets/portfolio-2.jpg'
+      '/assets/hero-illustration.jpg',
+      '/assets/portfolio-1.jpg',
+      '/assets/portfolio-2.jpg'
     ];
 
     criticalResources.forEach(resource => {

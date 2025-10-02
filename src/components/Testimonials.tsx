@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -221,11 +222,15 @@ const Testimonials: React.FC = () => {
                   {/* Portfolio Media */}
                   <div className="relative mb-6 rounded-xl overflow-hidden">
                     {testimonial.mediaType === "image" ? (
-                      <img 
-                        src={testimonial.media} 
-                        alt={`VerticalFlow portfolio work showcasing ${testimonial.role} for ${testimonial.author} - digital agency Θεσσαλονίκη success story`}
-                        className="w-full h-52 md:h-40 object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                      <div className="relative w-full h-52 md:h-40">
+                        <Image 
+                          src={testimonial.media} 
+                          alt={`VerticalFlow portfolio work showcasing ${testimonial.role} for ${testimonial.author} - digital agency Θεσσαλονίκη success story`}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
                     ) : (
                       <iframe 
                         src={testimonial.media}
@@ -247,10 +252,12 @@ const Testimonials: React.FC = () => {
 
                   {/* Author */}
                   <div className="flex items-center gap-4">
-                    <img 
+                    <Image 
                       src={testimonial.avatar} 
                       alt={`${testimonial.author} profile photo - VerticalFlow client testimonial`}
-                      className="w-16 h-16 md:w-10 md:h-10 rounded-full object-cover border-2 border-border"
+                      width={64}
+                      height={64}
+                      className="rounded-full object-cover border-2 border-border w-16 h-16 md:w-10 md:h-10"
                     />
                     <div>
                       <h4 className="font-semibold text-foreground text-base md:text-sm">{testimonial.author}</h4>

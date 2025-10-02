@@ -34,7 +34,7 @@ const BlogManager: React.FC<BlogManagerProps> = ({
     tags: [] as string[],
     featuredImage: '',
     authorName: 'VerticalFlow Team',
-    authorAvatar: '/src/assets/portfolio-1.jpg'
+    authorAvatar: '/assets/portfolio-1.jpg'
   });
   const [newTag, setNewTag] = useState('');
 
@@ -121,7 +121,7 @@ const BlogManager: React.FC<BlogManagerProps> = ({
       tags: [],
       featuredImage: '',
       authorName: 'VerticalFlow Team',
-      authorAvatar: '/src/assets/portfolio-1.jpg'
+      authorAvatar: '/assets/portfolio-1.jpg'
     });
     setIsCreating(false);
     setEditingPost(null);

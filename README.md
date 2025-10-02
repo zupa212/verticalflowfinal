@@ -60,14 +60,20 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
+## Development (Next.js)
 
-Simply open [Lovable](https://lovable.dev/projects/ba07256f-0091-4d50-9f41-1f25d70aceed) and click on Share -> Publish.
+Prerequisites: Node.js 18+
 
-## Can I connect a custom domain to my Lovable project?
+Install and run:
 
-Yes, you can!
+```sh
+npm i
+npm run dev
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Build and start:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+```sh
+npm run build
+npm start
+```

@@ -1,0 +1,1 @@
+Place your assets like portfolio-1.jpg, portfolio-2.jpg here. Update paths accordingly.

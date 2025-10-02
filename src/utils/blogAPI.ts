@@ -37,10 +37,10 @@ const initializeBlogData = () => {
 Πρόσφατα δουλέψαμε με ένα εστιατόριο στο κέντρο της Θεσσαλονίκης που είδε **300% αύξηση** στις κρατήσεις μετά από μια strategic Reel campaign που δημιουργήσαμε.
 
 *Θέλετε να μάθετε περισσότερα για το πώς μπορούμε να βοηθήσουμε την επιχείρησή σας; Επικοινωνήστε μαζί μας σήμερα!*`,
-        featuredImage: '/src/assets/portfolio-1.jpg',
+        featuredImage: '/assets/portfolio-1.jpg',
         author: {
           name: 'Digital Marketing Team',
-          avatar: '/src/assets/portfolio-1.jpg'
+          avatar: '/assets/portfolio-1.jpg'
         },
         category: 'Digital Marketing',
         tags: ['Reels Θεσσαλονίκη', 'Instagram Marketing', 'Social Media', 'Viral Content'],
@@ -136,10 +136,10 @@ const initializeBlogData = () => {
 ---
 
 **Επικοινωνήστε μαζί μας** για personalized digital strategy consultation.`,
-        featuredImage: '/src/assets/portfolio-3.jpg',
+        featuredImage: '/assets/portfolio-3.jpg',
         author: {
           name: 'VerticalFlow Team',
-          avatar: '/src/assets/portfolio-1.jpg'
+          avatar: '/assets/portfolio-1.jpg'
         },
         category: 'Insights & Tips',
         tags: ['Digital Marketing 2025', 'AI Marketing', 'Video Strategy', 'Mobile Optimization', 'Social Media'],

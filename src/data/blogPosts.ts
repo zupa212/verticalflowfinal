@@ -29,10 +29,10 @@ export const blogPosts: BlogPost[] = [
 
 *Θέλετε να μάθετε περισσότερα για το πώς μπορούμε να βοηθήσουμε την επιχείρησή σας; Επικοινωνήστε μαζί μας σήμερα!*
     `,
-    featuredImage: '/src/assets/portfolio-1.jpg',
+    featuredImage: '/assets/portfolio-1.jpg',
     author: {
       name: 'Digital Marketing Team',
-      avatar: '/src/assets/portfolio-1.jpg'
+      avatar: '/assets/portfolio-1.jpg'
     },
     category: 'Digital Marketing',
     tags: ['Reels Θεσσαλονίκη', 'Instagram Marketing', 'Social Media', 'Viral Content'],
@@ -89,10 +89,10 @@ Regular reports, clear timelines, και open communication channels είναι 
 
 *Ready να πάτε το business σας στο επόμενο level? Ας μιλήσουμε!*
     `,
-    featuredImage: '/src/assets/portfolio-2.jpg',
+    featuredImage: '/assets/portfolio-2.jpg',
     author: {
       name: 'Strategy Team',
-      avatar: '/src/assets/portfolio-2.jpg'
+      avatar: '/assets/portfolio-2.jpg'
     },
     category: 'Business Strategy',
     tags: ['Digital Agency Θεσσαλονίκη', 'Web Development', 'SEO', 'Business Growth'],

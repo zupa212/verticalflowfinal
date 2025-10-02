@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 const BrandsSlider: React.FC = () => {
@@ -51,10 +52,12 @@ const BrandsSlider: React.FC = () => {
                 whileHover={{ scale: 1.1 }}
                 className="flex-shrink-0 w-30 h-15 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300"
               >
-                <img
+                <Image
                   src={brand.logo}
                   alt={`${brand.name} logo`}
-                  className="max-w-full max-h-full object-contain opacity-60 hover:opacity-100 transition-opacity duration-300"
+                  width={120}
+                  height={60}
+                  className="opacity-60 hover:opacity-100 transition-opacity duration-300"
                 />
               </motion.div>
             ))}
@@ -66,10 +69,12 @@ const BrandsSlider: React.FC = () => {
                 whileHover={{ scale: 1.1 }}
                 className="flex-shrink-0 w-30 h-15 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300"
               >
-                <img
+                <Image
                   src={brand.logo}
                   alt={`${brand.name} logo`}
-                  className="max-w-full max-h-full object-contain opacity-60 hover:opacity-100 transition-opacity duration-300"
+                  width={120}
+                  height={60}
+                  className="opacity-60 hover:opacity-100 transition-opacity duration-300"
                 />
               </motion.div>
             ))}
