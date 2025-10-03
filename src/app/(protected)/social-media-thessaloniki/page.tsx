@@ -42,6 +42,7 @@ export default function Page() {
 								<div className="text-center"><div className="text-2xl font-bold text-primary">50M+</div><div className="text-sm text-muted-foreground">Impressions/Month</div></div>
 								<div className="text-center"><div className="text-2xl font-bold text-primary">300%</div><div className="text-sm text-muted-foreground">Avg. Growth</div></div>
 							</div>
+						</motion.div>
 						<motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="relative">
 							<div className="w-full h-96 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-3xl flex items-center justify-center">
 								<div className="grid grid-cols-2 gap-4">
