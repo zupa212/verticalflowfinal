@@ -300,7 +300,7 @@ const ReelsSection: React.FC = () => {
           {/* Optimized Video Player */}
           {slide.videoSrc && (
             <video
-              ref={(el) => (videoRefs.current[index] = el)}
+              ref={(el) => { if (el) videoRefs.current[index] = el; }}
               className="absolute inset-0 w-full h-full object-cover rounded-3xl group-hover:scale-105 transition-transform duration-700"
               autoPlay
               muted
